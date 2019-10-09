@@ -1,25 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
-import './styles.css';
+import Navbar from "./../../components/Navbar";
+import { Router } from "./../../util/router.js";
+import { ProvideAuth } from '../../util/auth';
+import './styles.scss';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ProvideAuth>
+      <Router>
+        <Navbar
+          color="primary"
+          spaced
+          logo="https://uploads.divjoy.com/logo-white.svg"
+        />
+
+        {/* <Switch>
+          <Route exact path="/" component={HomePage} />
+        </Switch> */}
+      </Router>
+    </ProvideAuth>
   );
 }
 
