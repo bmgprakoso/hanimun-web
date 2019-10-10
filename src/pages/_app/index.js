@@ -1,6 +1,9 @@
 import React from 'react';
 import Navbar from "./../../components/Navbar";
-import { Router } from "./../../util/router.js";
+import Divider from "./../../components/Divider";
+import Footer from "./../../components/Footer";
+import HomePage from "./../home";
+import { Route, Router, Switch } from "./../../util/router.js";
 import { ProvideAuth } from '../../util/auth';
 import './styles.scss';
 
@@ -14,9 +17,35 @@ function App() {
           logo="https://uploads.divjoy.com/logo-white.svg"
         />
 
-        {/* <Switch>
+        <Switch>
           <Route exact path="/" component={HomePage} />
-        </Switch> */}
+
+          <Route
+            component={({ location }) => {
+              return (
+                <div
+                  style={{
+                    padding: "50px",
+                    width: "100%",
+                    textAlign: "center"
+                  }}
+                >
+                  The page <code>{location.pathname}</code> could not be
+                  found.
+                </div>
+              );
+            }}
+          />
+        </Switch>
+
+        <Divider color="light" />
+        <Footer
+          color="white"
+          size="medium"
+          logo="https://uploads.divjoy.com/logo.svg"
+          description="A short description of what you do here"
+          copyright="© Company Name"
+        />
       </Router>
     </ProvideAuth>
   );
