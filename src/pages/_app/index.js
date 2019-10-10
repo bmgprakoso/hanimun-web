@@ -3,6 +3,7 @@ import Navbar from "./../../components/Navbar";
 import Divider from "./../../components/Divider";
 import Footer from "./../../components/Footer";
 import HomePage from "./../home";
+import SigninPage from "./../signin";
 import { Route, Router, Switch } from "./../../util/router.js";
 import { ProvideAuth } from '../../util/auth';
 import './styles.scss';
@@ -19,6 +20,8 @@ function App() {
 
         <Switch>
           <Route exact path="/" component={HomePage} />
+
+          <Route exact path="/signin" component={SigninPage} />
 
           <Route
             component={({ location }) => {
