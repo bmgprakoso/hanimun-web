@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from "./../../components/Navbar";
 import Divider from "./../../components/Divider";
 import Footer from "./../../components/Footer";
+import ForgotpassPage from "./../forgotpass";
 import HomePage from "./../home";
 import SigninPage from "./../signin";
 import SignupPage from "./../signup";
@@ -25,6 +26,8 @@ function App() {
           <Route exact path="/signin" component={SigninPage} />
 
           <Route exact path="/signup" component={SignupPage} />
+
+          <Route exact path="/forgotpass" component={ForgotpassPage} />
 
           <Route
             component={({ location }) => {
