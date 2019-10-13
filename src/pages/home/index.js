@@ -10,8 +10,8 @@ function HomePage(props) {
       <HeroSection
         color="primary"
         size="large"
-        title="Your landing page title here"
-        subtitle="This landing page is perfect for showing off your awesome product and driving people to sign up for a paid plan."
+        title="Lorem ipsum dolor sit amet"
+        subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper ultricies nisi sed maximus."
         buttonText="Start Free Trial"
         buttonOnClick={() => {
           router.push("/pricing");

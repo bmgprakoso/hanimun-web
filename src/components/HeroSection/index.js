@@ -1,7 +1,7 @@
 import React from "react";
+import FlightSearchBar from "./../FlightSearchBar";
 import Section from "./../Section";
 import SectionHeader from "./../SectionHeader";
-import SectionButton from "./../SectionButton";
 import "./styles.scss";
 
 function HeroSection(props) {
@@ -14,15 +14,7 @@ function HeroSection(props) {
           centered={true}
           size={1}
         />
-        <div className="buttons is-centered">
-          <SectionButton
-            parentColor={props.color}
-            size="medium"
-            onClick={props.buttonOnClick}
-          >
-            {props.buttonText}
-          </SectionButton>
-        </div>
+        <FlightSearchBar />
       </div>
     </Section>
   );
