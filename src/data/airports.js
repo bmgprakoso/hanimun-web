@@ -1,4 +1,4 @@
-[
+const Airports = [
     {
        "airportID":"3886",
        "name":"Naha",
@@ -1595,4 +1595,6 @@
        "dst":"U",
        "tz":"Asia/Jayapura"
     }
- ]
+  ]
+
+export default Airports;
