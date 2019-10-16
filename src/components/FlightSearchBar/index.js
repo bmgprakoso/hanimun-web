@@ -44,7 +44,10 @@ class FlightSearchBar extends React.Component {
             <div className="column">
               <div className="control is-expanded has-icons-left">
                 <div className="select">
-                  <select onChange={e => this.handleChange(e, FROM)}>
+                  <select
+                    className="FlightSearchBar__select"
+                    onChange={e => this.handleChange(e, FROM)}
+                  >
                     <option value="">From where?</option>
                     {this.airportSelection()}
                   </select>
@@ -57,7 +60,10 @@ class FlightSearchBar extends React.Component {
             <div className="column">
               <div className="control is-expanded has-icons-left">
                 <div className="select">
-                  <select onChange={e => this.handleChange(e, TO)}>
+                  <select
+                    className="FlightSearchBar__select"
+                    onChange={e => this.handleChange(e, TO)}
+                  >
                     <option value="">To where?</option>
                     {this.airportSelection()}
                   </select>
