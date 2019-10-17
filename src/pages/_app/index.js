@@ -1,12 +1,13 @@
 import React from 'react';
-import Navbar from "./../../components/Navbar";
-import Divider from "./../../components/Divider";
-import Footer from "./../../components/Footer";
-import ForgotpassPage from "./../forgotpass";
-import HomePage from "./../home";
-import SigninPage from "./../signin";
-import SignupPage from "./../signup";
-import { Route, Router, Switch } from "./../../util/router.js";
+import Navbar from '../../components/Navbar';
+import Divider from '../../components/Divider';
+import Footer from '../../components/Footer';
+import ForgotpassPage from '../forgotpass';
+import SearchResultPage from '../searchresult';
+import HomePage from '../home';
+import SigninPage from '../signin';
+import SignupPage from '../signup';
+import { Route, Router, Switch } from '../../util/router';
 import { ProvideAuth } from '../../util/auth';
 import './styles.scss';
 
@@ -14,11 +15,7 @@ function App() {
   return (
     <ProvideAuth>
       <Router>
-        <Navbar
-          color="primary"
-          spaced
-          logo="https://uploads.divjoy.com/logo-white.svg"
-        />
+        <Navbar color="primary" spaced logo="https://uploads.divjoy.com/logo-white.svg" />
 
         <Switch>
           <Route exact path="/" component={HomePage} />
@@ -29,18 +26,21 @@ function App() {
 
           <Route exact path="/forgotpass" component={ForgotpassPage} />
 
+          <Route exact path="/searchresult" component={SearchResultPage} />
+
           <Route
             component={({ location }) => {
               return (
                 <div
                   style={{
-                    padding: "50px",
-                    width: "100%",
-                    textAlign: "center"
+                    padding: '50px',
+                    width: '100%',
+                    textAlign: 'center',
                   }}
                 >
-                  The page <code>{location.pathname}</code> could not be
-                  found.
+                  The page
+                  <code>{location.pathname}</code>
+                  could not be found.
                 </div>
               );
             }}
