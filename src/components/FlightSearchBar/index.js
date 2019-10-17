@@ -1,4 +1,5 @@
 import React from 'react';
+import DatePicker from 'react-datepicker';
 import Airports from '../../data/airports';
 import './styles.scss';
 
@@ -36,7 +37,12 @@ class FlightSearchBar extends React.Component {
     console.log(fromID, toID, date);
   };
 
+  setDate = date => {
+    this.setState({ date });
+  };
+
   render() {
+    const { date } = this.state;
     return (
       <div className="columns is-horizontal is-vcentered">
         <div className="column is-full">
@@ -75,10 +81,16 @@ class FlightSearchBar extends React.Component {
             </div>
             <div className="column">
               <div className="control is-expanded has-icons-left">
-                <input className="input" type="text" placeholder="Date" />
-                <span className="icon is-small is-left">
+                <DatePicker
+                  className="input"
+                  minDate={new Date()}
+                  showPopperArrow={false}
+                  selected={date}
+                  onChange={d => this.setDate(d)}
+                />
+                <div className="icon is-small is-left">
                   <i className="fas fa-calendar" />
-                </span>
+                </div>
               </div>
             </div>
             <div className="column">
