@@ -95,10 +95,16 @@ class FlightSearchBar extends React.Component {
             </div>
             <div className="column">
               <div className="control is-expanded has-icons-left">
-                <input className="input" type="text" placeholder="Class" />
-                <span className="icon is-small is-left">
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="Class"
+                  readOnly
+                  value="2 Travelers, Economy"
+                />
+                <div className="icon is-small is-left">
                   <i className="fas fa-user-friends" />
-                </span>
+                </div>
               </div>
             </div>
           </div>
