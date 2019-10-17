@@ -44,73 +44,70 @@ class FlightSearchBar extends React.Component {
   render() {
     const { date } = this.state;
     return (
-      <div className="columns is-horizontal is-vcentered">
-        <div className="column is-full">
-          <div className="columns">
-            <div className="column">
-              <div className="control is-expanded has-icons-left">
-                <div className="select">
-                  <select
-                    className="FlightSearchBar__select"
-                    onChange={e => this.handleChange(e, FROM)}
-                  >
-                    <option value="">From where?</option>
-                    {this.airportSelection()}
-                  </select>
-                </div>
-                <div className="icon is-small is-left">
-                  <i className="fas fa-plane-departure" />
-                </div>
-              </div>
+      <div className="columns is-horizontal is-vcentered is-variable is-1">
+        <div className="column">
+          <div className="control is-expanded has-icons-left">
+            <div className="select">
+              <select
+                className="FlightSearchBar__select"
+                onChange={e => this.handleChange(e, FROM)}
+              >
+                <option value="">From where?</option>
+                {this.airportSelection()}
+              </select>
             </div>
-            <div className="column">
-              <div className="control is-expanded has-icons-left">
-                <div className="select">
-                  <select
-                    className="FlightSearchBar__select"
-                    onChange={e => this.handleChange(e, TO)}
-                  >
-                    <option value="">To where?</option>
-                    {this.airportSelection()}
-                  </select>
-                </div>
-                <div className="icon is-small is-left">
-                  <i className="fas fa-plane-arrival" />
-                </div>
-              </div>
-            </div>
-            <div className="column">
-              <div className="control is-expanded has-icons-left">
-                <DatePicker
-                  className="input"
-                  minDate={new Date()}
-                  showPopperArrow={false}
-                  selected={date}
-                  onChange={d => this.setDate(d)}
-                />
-                <div className="icon is-small is-left">
-                  <i className="fas fa-calendar" />
-                </div>
-              </div>
-            </div>
-            <div className="column">
-              <div className="control is-expanded has-icons-left">
-                <input
-                  className="input"
-                  type="text"
-                  placeholder="Class"
-                  readOnly
-                  value="2 Travelers, Economy"
-                />
-                <div className="icon is-small is-left">
-                  <i className="fas fa-user-friends" />
-                </div>
-              </div>
+            <div className="icon is-small is-left">
+              <i className="fas fa-plane-departure" />
             </div>
           </div>
         </div>
         <div className="column">
-          <button type="submit" onClick={this.search} className="button is-primary is-inverted">
+          <div className="control is-expanded has-icons-left">
+            <div className="select">
+              <select className="FlightSearchBar__select" onChange={e => this.handleChange(e, TO)}>
+                <option value="">To where?</option>
+                {this.airportSelection()}
+              </select>
+            </div>
+            <div className="icon is-small is-left">
+              <i className="fas fa-plane-arrival" />
+            </div>
+          </div>
+        </div>
+        <div className="column">
+          <div className="control is-expanded has-icons-left">
+            <DatePicker
+              className="input"
+              minDate={new Date()}
+              showPopperArrow={false}
+              selected={date}
+              onChange={d => this.setDate(d)}
+            />
+            <div className="icon is-small is-left">
+              <i className="fas fa-calendar" />
+            </div>
+          </div>
+        </div>
+        <div className="column">
+          <div className="control is-expanded has-icons-left">
+            <input
+              className="input"
+              type="text"
+              placeholder="Class"
+              readOnly
+              value="2 Travelers, Economy"
+            />
+            <div className="icon is-small is-left">
+              <i className="fas fa-user-friends" />
+            </div>
+          </div>
+        </div>
+        <div className="column is-narrow">
+          <button
+            type="submit"
+            onClick={this.search}
+            className="button is-primary is-inverted is-rounded"
+          >
             Search
           </button>
         </div>
