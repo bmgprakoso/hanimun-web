@@ -1,7 +1,14 @@
 import React from 'react';
+import { useRouter } from '../../util/router';
 import './styles.scss';
 
 const FlightSearchCard = () => {
+  const router = useRouter();
+
+  const select = () => {
+    router.push('/orderdetail');
+  };
+
   return (
     <div className="card FlightSearchCard">
       <div className="card-content">
@@ -23,6 +30,7 @@ const FlightSearchCard = () => {
             <button
               type="submit"
               className="button is-primary is-pulled-right FlightSearchCard__select-button"
+              onClick={select}
             >
               Select
             </button>

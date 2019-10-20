@@ -10,6 +10,7 @@ import SignupPage from '../signup';
 import { Route, Router, Switch } from '../../util/router';
 import { ProvideAuth } from '../../util/auth';
 import './styles.scss';
+import OrderDetailPage from '../orderdetail';
 
 function App() {
   return (
@@ -27,6 +28,8 @@ function App() {
           <Route exact path="/forgotpass" component={ForgotpassPage} />
 
           <Route exact path="/searchresult" component={SearchResultPage} />
+
+          <Route exact path="/orderdetail" component={OrderDetailPage} />
 
           <Route
             component={({ location }) => {
