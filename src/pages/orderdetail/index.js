@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import FlightOrderDetail from '../../components/FlightOrderDetail';
 import Section from '../../components/Section';
+import SectionHeader from '../../components/SectionHeader';
 import './styles.scss';
 import CustomerOrderDetail from '../../components/CustomerOrderDetail';
 import PaymentOrderDetail from '../../components/PaymentOrderDetail';
@@ -17,12 +18,13 @@ const OrderDetailPage = () => {
     setIsShowModal(true);
   };
   const done = () => {
-    router.push('/myorder');
+    router.push('/myorders');
   };
 
   return (
     <Section>
       <div className="container">
+        <SectionHeader title="Order Detail" size={2} />
         <div className="tile is-ancestor">
           <div className="tile is-parent">
             <div className="tile is-child box">

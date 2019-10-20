@@ -11,6 +11,7 @@ import { Route, Router, Switch } from '../../util/router';
 import { ProvideAuth } from '../../util/auth';
 import './styles.scss';
 import OrderDetailPage from '../orderdetail';
+import MyOrdersPage from '../myorders';
 
 function App() {
   return (
@@ -30,6 +31,8 @@ function App() {
           <Route exact path="/searchresult" component={SearchResultPage} />
 
           <Route exact path="/orderdetail" component={OrderDetailPage} />
+
+          <Route exact path="/myorders" component={MyOrdersPage} />
 
           <Route
             component={({ location }) => {
