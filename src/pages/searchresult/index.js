@@ -1,24 +1,56 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import FlightSearchBar from '../../components/FlightSearchBar';
 import FlightSearchCard from '../../components/FlightSearchCard';
 import Section from '../../components/Section';
 import SectionHeader from '../../components/SectionHeader';
 import { BACKEND_URL, ENDPOINT } from '../../data/constants';
 
-const SearchResultPage = () => {
+const SearchResultPage = props => {
+  const [results, setResults] = useState([]);
+
   async function fetchData() {
+    const { fromID, toID, date } = props.location.state;
+    console.log(fromID);
+    console.log(toID);
+    console.log(date);
     const res = await fetch(
-      `${BACKEND_URL}${ENDPOINT.GET_FLIGHT_SEARCH_RESULT}?departureCityCode=&arrivalCityCode=PDG&arrivalTimeMin=20:00:00`,
+      `${BACKEND_URL}${ENDPOINT.GET_FLIGHT_SEARCH_RESULT}?arrivalCityCode=YKIA&arrivalTimeMin=20`,
     );
     res
       .json()
-      .then(r => console.log(r))
+      .then(r => {
+        const result = r.data.map(e => {
+          return {
+            airline: e.airline,
+            departureTime: e.departureTime,
+            departureAirportCode: e.departureAirportCode,
+            arrivalTime: e.arrivalTime,
+            arrivalAirportCode: e.arrivalAirportCode,
+            price: e.price,
+          };
+        });
+        setResults(result);
+      })
       .catch(e => console.log(e));
   }
 
   useEffect(() => {
     fetchData();
-  });
+  }, []);
+
+  const generateFlightSearchResults = () =>
+    results.map(r => {
+      return (
+        <FlightSearchCard
+          airline={r.airline}
+          departureTime={r.departureTime}
+          departureAirportCode={r.departureAirportCode}
+          arrivalTime={r.arrivalTime}
+          arrivalAirportCode={r.arrivalAirportCode}
+          price={r.price}
+        />
+      );
+    });
 
   return (
     <Section>
@@ -26,8 +58,7 @@ const SearchResultPage = () => {
         <SectionHeader title="Search Result" size={2} />
         <FlightSearchBar />
         <br />
-        <FlightSearchCard />
-        <FlightSearchCard />
+        <div>{generateFlightSearchResults()}</div>
       </div>
     </Section>
   );

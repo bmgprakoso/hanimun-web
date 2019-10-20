@@ -1,8 +1,9 @@
 import React from 'react';
 import { useRouter } from '../../util/router';
+import { formatPrice, timeDiff } from '../../util/display';
 import './styles.scss';
 
-const FlightSearchCard = () => {
+const FlightSearchCard = props => {
   const router = useRouter();
 
   const select = () => {
@@ -17,16 +18,18 @@ const FlightSearchCard = () => {
             <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder" />
           </div>
           <div className="column">
-            <div className="has-text-weight-bold">4:00 pm — 11:44 pm</div>
-            <div>United Airlines</div>
+            <div className="has-text-weight-bold">{`${props.departureTime} — ${props.arrivalTime}`}</div>
+            <div>{props.airline}</div>
           </div>
           <div className="column">
-            <div className="has-text-weight-bold">4h 44m</div>
-            <div>LAS ‐ EWR</div>
+            <div className="has-text-weight-bold">
+              {timeDiff(props.departureTime, props.arrivalTime)}
+            </div>
+            <div>{`${props.departureAirportCode} — ${props.arrivalAirportCode}`}</div>
           </div>
           <div className="column is-narrow">
-            <div className="is-size-7 is-pulled-right">160,000 IDR/pax</div>
-            <div className="is-size-4 has-text-weight-bold">320,000 IDR</div>
+            <div className="is-size-7 is-pulled-right">{`${formatPrice(props.price)}/pax`}</div>
+            <div className="is-size-4 has-text-weight-bold">{formatPrice(props.price * 2)}</div>
             <button
               type="submit"
               className="button is-primary is-pulled-right FlightSearchCard__select-button"

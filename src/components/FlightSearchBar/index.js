@@ -60,7 +60,10 @@ const FlightSearchBar = () => {
     if (!validateForm()) {
       return;
     }
-    router.push('/searchresult');
+    router.push({
+      pathname: '/searchresult',
+      state: { fromID, toID, date },
+    });
   };
 
   return (
