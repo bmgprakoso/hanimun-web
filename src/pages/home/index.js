@@ -1,22 +1,16 @@
-import React from "react";
-import HeroSection from "./../../components/HeroSection";
-import { useRouter } from "./../../util/router.js";
-import "./styles.scss";
+import React from 'react';
+import HeroSection from '../../components/HeroSection';
+import './styles.scss';
 
-function HomePage(props) {
-  const router = useRouter();
-
+function HomePage() {
   return (
-      <HeroSection
-        color="primary"
-        size="large"
-        title="Lorem ipsum dolor sit amet"
-        subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper ultricies nisi sed maximus."
-        buttonText="Start Free Trial"
-        buttonOnClick={() => {
-          router.push("/pricing");
-        }}
-      />
+    <HeroSection
+      color="primary"
+      size="large"
+      title="Lorem ipsum dolor sit amet"
+      subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper ultricies nisi sed maximus."
+      buttonText="Start Free Trial"
+    />
   );
 }
 
