@@ -3,6 +3,7 @@ import FlightOrderDetail from '../../components/FlightOrderDetail';
 import Section from '../../components/Section';
 import './styles.scss';
 import CustomerOrderDetail from '../../components/CustomerOrderDetail';
+import PaymentOrderDetail from '../../components/PaymentOrderDetail';
 
 const OrderDetailPage = () => {
   return (
@@ -18,6 +19,9 @@ const OrderDetailPage = () => {
             <div className="tile is-child box">
               <CustomerOrderDetail />
             </div>
+            <div className="tile is-child box">
+              <PaymentOrderDetail />
+            </div>
           </div>
         </div>
         <div className="columns is-mobile is-centered">
@@ -27,7 +31,7 @@ const OrderDetailPage = () => {
               className="button is-primary is-centered"
               // onClick={select}
             >
-              Continue To Payment
+              Checkout
             </button>
           </div>
         </div>
