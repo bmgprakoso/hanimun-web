@@ -12,6 +12,7 @@ import { ProvideAuth } from '../../util/auth';
 import './styles.scss';
 import OrderDetailPage from '../orderdetail';
 import MyOrdersPage from '../myorders';
+import MyOrderDetailPage from '../myorderdetail';
 
 function App() {
   return (
@@ -33,6 +34,8 @@ function App() {
           <Route exact path="/orderdetail" component={OrderDetailPage} />
 
           <Route exact path="/myorders" component={MyOrdersPage} />
+
+          <Route exact path="/myorders/:id" component={MyOrderDetailPage} />
 
           <Route
             component={({ location }) => {
