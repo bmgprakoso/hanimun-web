@@ -45,6 +45,7 @@ const SearchResultPage = props => {
       return (
         <FlightSearchCard
           key={r.id}
+          flightId={r.id}
           airline={r.airline}
           departureTime={r.departureTime}
           departureAirportCode={r.departureAirportCode}

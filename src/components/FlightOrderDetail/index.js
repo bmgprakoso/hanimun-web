@@ -2,16 +2,17 @@ import React from 'react';
 import Divider from "../Divider";
 import './styles.scss';
 
-const FlightOrderDetail = () => {
+const FlightOrderDetail = props => {
+  const { airline, departureCity, departureTime, departureAirportCode, arrivalCity, arrivalTime, arrivalAirportCode, date, price } = props.data;
   return (
     <div>
       <p className="title">Flight Detail</p>
       <Divider color="dark" />
       <br />
-      <div className="has-text-weight-bold">Jakarta (HLP) &#x2192; Surabaya (SUB)</div>
-      <div>United Airlines</div>
+      <div className="has-text-weight-bold">{`${departureCity} (${departureAirportCode}) &#x2192; ${arrivalCity} (${arrivalAirportCode})`}</div>
+      <div>{airline}</div>
       <br />
-      <div className="has-text-weight-bold">Saturday, 19 October 2019</div>
+      <div className="has-text-weight-bold">{date}</div>
       <div className="columns is-vcentered">
         <div className="column">
           <div>09.10</div>

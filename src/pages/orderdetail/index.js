@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FlightOrderDetail from '../../components/FlightOrderDetail';
 import Section from '../../components/Section';
 import SectionHeader from '../../components/SectionHeader';
@@ -8,11 +8,29 @@ import './styles.scss';
 import CustomerOrderDetail from '../../components/CustomerOrderDetail';
 import PaymentOrderDetail from '../../components/PaymentOrderDetail';
 import { useRouter } from '../../util/router';
+import { BACKEND_URL, ENDPOINT } from '../../data/constants';
 
-const OrderDetailPage = () => {
+const OrderDetailPage = props => {
   const router = useRouter();
 
+  const [productData, setProductData] = useState({});
   const [isShowModal, setIsShowModal] = useState('');
+
+  async function fetchData() {
+    const { id } = props.location.state;
+    console.log(`${BACKEND_URL}${ENDPOINT.GET_FLIGHT_DETAIL}?flightId=${'649'}`);
+    const res = await fetch(
+      `${BACKEND_URL}${ENDPOINT.GET_FLIGHT_DETAIL}?flightId=${id}`,
+    );
+    res
+      .json()
+      .then(r => setProductData(r.data))
+      .catch(e => console.log(e));
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const checkout = () => {
     setIsShowModal(true);
@@ -28,7 +46,7 @@ const OrderDetailPage = () => {
         <div className="tile is-ancestor">
           <div className="tile is-parent">
             <div className="tile is-child box">
-              <FlightOrderDetail />
+              <FlightOrderDetail data={productData} />
             </div>
           </div>
           <div className="tile is-8 is-vertical is-parent">

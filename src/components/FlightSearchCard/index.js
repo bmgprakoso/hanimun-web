@@ -7,7 +7,10 @@ const FlightSearchCard = props => {
   const router = useRouter();
 
   const select = () => {
-    router.push('/orderdetail');
+    router.push({
+      pathname: '/orderdetail',
+      state: { id: props.flightId }
+    });
   };
 
   return (
