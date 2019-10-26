@@ -10,12 +10,9 @@ const SearchResultPage = props => {
 
   async function fetchData() {
     const { fromID, toID, date } = props.location.state;
-    console.log(fromID);
-    console.log(toID);
-    console.log(date);
     const formattedDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
     const res = await fetch(
-      `${BACKEND_URL}${ENDPOINT.GET_FLIGHT_SEARCH_RESULT}?arrivalCityCode=YKIA&date=${formattedDate}`,
+      `${BACKEND_URL}${ENDPOINT.GET_FLIGHT_SEARCH_RESULT}?departureCityCode=${fromID}&arrivalCityCode=${toID}&date=${formattedDate}`,
     );
     res
       .json()

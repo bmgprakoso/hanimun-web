@@ -2,9 +2,9 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
-import Airports from '../../data/airports';
 import './styles.scss';
 import { useRouter } from '../../util/router';
+import { BACKEND_URL, ENDPOINT } from '../../data/constants';
 
 const FROM = 'FROM';
 const TO = 'TO';
@@ -12,21 +12,43 @@ const TO = 'TO';
 const FlightSearchBar = props => {
   const router = useRouter();
 
+  const [airports, setAirports] = useState([]);
   const [fromID, setFromID] = useState('');
   const [toID, setToID] = useState('');
   const [date, setDate] = useState(new Date());
   const [errorMsg, setErrorMsg] = useState('');
 
+  async function fetchData() {
+    const res = await fetch(
+      `${BACKEND_URL}${ENDPOINT.GET_AIRPORT}`,
+    );
+    res
+      .json()
+      .then(r => {
+        const result = r.data.map(e => {
+          return {
+            airportCode: e.airportCode,
+            airportName: e.airportName,
+            cityCode: e.cityCode,
+            cityName: e.cityName,
+          };
+        });
+        setAirports(result);
+      })
+      .catch(e => console.log(e));
+  }
+
   useEffect(() => {
     setFromID(props.fromID || '');
     setToID(props.toID || '');
     setDate(props.date || new Date());
+    fetchData();
   }, []);
 
   const airportSelection = () =>
-    Airports.map(airport => (
-      <option key={airport.airportID} value={airport.airportID}>
-        {`${airport.city} – ${airport.name}`}
+    airports.map(airport => (
+      <option key={`${airport.cityCode}${airport.airportCode}`} value={airport.cityCode}>
+        {`${airport.cityName} – ${airport.airportName}`}
       </option>
     ));
 
