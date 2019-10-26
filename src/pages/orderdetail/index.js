@@ -18,13 +18,10 @@ const OrderDetailPage = props => {
 
   async function fetchData() {
     const { id } = props.location.state;
-    console.log(`${BACKEND_URL}${ENDPOINT.GET_FLIGHT_DETAIL}?flightId=${'649'}`);
-    const res = await fetch(
-      `${BACKEND_URL}${ENDPOINT.GET_FLIGHT_DETAIL}?flightId=${id}`,
-    );
+    const res = await fetch(`${BACKEND_URL}${ENDPOINT.GET_FLIGHT_DETAIL}?flightId=${id}`);
     res
       .json()
-      .then(r => setProductData(r.data))
+      .then(r => setProductData(r.data[0]))
       .catch(e => console.log(e));
   }
 

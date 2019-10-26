@@ -5,9 +5,12 @@ const formatPrice = a => {
 };
 
 // from HH:m:s to HH:m
-const formatHourMinute = (string) => {
-  return string.split(':').slice(0, -1).join(':');
-}
+const formatHourMinute = string => {
+  return string
+    .split(':')
+    .slice(0, -1)
+    .join(':');
+};
 
 const timeDiff = (before, after) => {
   const beforeTime = moment(before, 'HH:m:s');

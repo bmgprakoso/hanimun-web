@@ -1,9 +1,22 @@
 import React from 'react';
-import Divider from "../Divider";
+import Divider from '../Divider';
 import './styles.scss';
+import { formatHourMinute, timeDiff } from '../../util/display';
 
 const FlightOrderDetail = props => {
-  const { airline, departureCity, departureTime, departureAirportCode, arrivalCity, arrivalTime, arrivalAirportCode, date, price } = props.data;
+  const {
+    airline,
+    departureCity,
+    departureTime,
+    departureAirportCode,
+    arrivalCity,
+    arrivalTime,
+    arrivalAirportCode,
+    date,
+    price,
+  } = props.data;
+
+  console.log(props.data);
   return (
     <div>
       <p className="title">Flight Detail</p>
@@ -15,16 +28,16 @@ const FlightOrderDetail = props => {
       <div className="has-text-weight-bold">{date}</div>
       <div className="columns is-vcentered">
         <div className="column">
-          <div>09.10</div>
-          <div>HLP</div>
+          <div>{formatHourMinute(departureTime)}</div>
+          <div>{departureAirportCode}</div>
         </div>
         <div className="column">
-          <div>1h 30m</div>
+          <div>{timeDiff(departureTime, arrivalTime)}</div>
           <div>Direct</div>
         </div>
         <div className="column">
-          <div>10.40</div>
-          <div>SUB</div>
+          <div>{formatHourMinute(arrivalTime)}</div>
+          <div>{arrivalAirportCode}</div>
         </div>
       </div>
       <Divider color="dark" />
@@ -34,7 +47,7 @@ const FlightOrderDetail = props => {
         <tbody>
           <tr>
             <td>Adult (x2)</td>
-            <td align="right">320,000 IDR</td>
+            <td align="right">{price}</td>
           </tr>
           <tr>
             <td>Tax</td>
@@ -47,7 +60,7 @@ const FlightOrderDetail = props => {
           <tr>
             <td className="has-text-weight-bold">Total Payment</td>
             <td align="right" className="has-text-weight-bold">
-              320,000 IDR
+              {price}
             </td>
           </tr>
         </tbody>
