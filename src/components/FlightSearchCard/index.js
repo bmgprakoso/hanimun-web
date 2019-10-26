@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from '../../util/router';
-import { formatPrice, timeDiff } from '../../util/display';
+import { formatHourMinute, formatPrice, timeDiff } from '../../util/display';
 import './styles.scss';
 
 const FlightSearchCard = props => {
@@ -18,7 +18,7 @@ const FlightSearchCard = props => {
             <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder" />
           </div>
           <div className="column">
-            <div className="has-text-weight-bold">{`${props.departureTime} — ${props.arrivalTime}`}</div>
+            <div className="has-text-weight-bold">{`${formatHourMinute(props.departureTime)} — ${formatHourMinute(props.arrivalTime)}`}</div>
             <div>{props.airline}</div>
           </div>
           <div className="column">

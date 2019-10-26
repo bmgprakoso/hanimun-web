@@ -13,14 +13,16 @@ const SearchResultPage = props => {
     console.log(fromID);
     console.log(toID);
     console.log(date);
+    const formattedDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
     const res = await fetch(
-      `${BACKEND_URL}${ENDPOINT.GET_FLIGHT_SEARCH_RESULT}?arrivalCityCode=YKIA&arrivalTimeMin=20`,
+      `${BACKEND_URL}${ENDPOINT.GET_FLIGHT_SEARCH_RESULT}?arrivalCityCode=YKIA&date=${formattedDate}`,
     );
     res
       .json()
       .then(r => {
         const result = r.data.map(e => {
           return {
+            id: e.flightCode,
             airline: e.airline,
             departureTime: e.departureTime,
             departureAirportCode: e.departureAirportCode,
@@ -42,6 +44,7 @@ const SearchResultPage = props => {
     results.map(r => {
       return (
         <FlightSearchCard
+          key={r.id}
           airline={r.airline}
           departureTime={r.departureTime}
           departureAirportCode={r.departureAirportCode}
