@@ -59,7 +59,11 @@ const SearchResultPage = props => {
     <Section>
       <div className="container">
         <SectionHeader title="Search Result" size={2} />
-        <FlightSearchBar />
+        <FlightSearchBar
+          fromID={props.location.state.fromID}
+          toID={props.location.state.toID}
+          date={props.location.state.date}
+        />
         <br />
         <div>{generateFlightSearchResults()}</div>
       </div>

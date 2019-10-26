@@ -9,7 +9,7 @@ function HeroSection(props) {
     <Section color={props.color} size={props.size}>
       <div className="container">
         <SectionHeader title={props.title} subtitle={props.subtitle} centered size={1} />
-        <FlightSearchBar />
+        <FlightSearchBar isInverted />
       </div>
     </Section>
   );

@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import Airports from '../../data/airports';
 import './styles.scss';
@@ -9,13 +9,19 @@ import { useRouter } from '../../util/router';
 const FROM = 'FROM';
 const TO = 'TO';
 
-const FlightSearchBar = () => {
+const FlightSearchBar = props => {
   const router = useRouter();
 
   const [fromID, setFromID] = useState('');
   const [toID, setToID] = useState('');
   const [date, setDate] = useState(new Date());
   const [errorMsg, setErrorMsg] = useState('');
+
+  useEffect(() => {
+    setFromID(props.fromID || '');
+    setToID(props.toID || '');
+    setDate(props.date || new Date());
+  }, []);
 
   const airportSelection = () =>
     Airports.map(airport => (
@@ -72,7 +78,7 @@ const FlightSearchBar = () => {
         <div className="column">
           <div className="control is-expanded has-icons-left">
             <div className="select">
-              <select className="FlightSearchBar__select" onChange={e => handleChange(e, FROM)}>
+              <select className="FlightSearchBar__select" value={fromID} onChange={e => handleChange(e, FROM)}>
                 <option value="">From where?</option>
                 {airportSelection()}
               </select>
@@ -85,7 +91,7 @@ const FlightSearchBar = () => {
         <div className="column">
           <div className="control is-expanded has-icons-left">
             <div className="select">
-              <select className="FlightSearchBar__select" onChange={e => handleChange(e, TO)}>
+              <select className="FlightSearchBar__select" value={toID} onChange={e => handleChange(e, TO)}>
                 <option value="">To where?</option>
                 {airportSelection()}
               </select>
@@ -127,7 +133,7 @@ const FlightSearchBar = () => {
           <button
             type="submit"
             onClick={search}
-            className="button is-primary is-inverted is-rounded"
+            className={`button is-primary is-rounded${props.isInverted ? ' is-inverted' : ''}`}
           >
             Search
           </button>

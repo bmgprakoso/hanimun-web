@@ -32,7 +32,7 @@ const FlightSearchCard = props => {
             <div className="is-size-4 has-text-weight-bold">{formatPrice(props.price * 2)}</div>
             <button
               type="submit"
-              className="button is-primary is-pulled-right FlightSearchCard__select-button"
+              className="button is-success is-pulled-right FlightSearchCard__select-button"
               onClick={select}
             >
               Select
