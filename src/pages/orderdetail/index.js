@@ -9,12 +9,15 @@ import CustomerOrderDetail from '../../components/CustomerOrderDetail';
 import PaymentOrderDetail from '../../components/PaymentOrderDetail';
 import { useRouter } from '../../util/router';
 import { BACKEND_URL, ENDPOINT } from '../../data/constants';
+import AlternateSection from '../../components/AlternateSection';
 
 const OrderDetailPage = props => {
   const router = useRouter();
 
   const [productData, setProductData] = useState({});
   const [isShowModal, setIsShowModal] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   async function fetchData() {
     const { id, date } = props.location.state;
@@ -23,8 +26,18 @@ const OrderDetailPage = props => {
     );
     res
       .json()
-      .then(r => setProductData(r.data[0]))
-      .catch(e => console.log(e));
+      .then(r => {
+        const data = r.data[0];
+        setProductData(r.data[0]);
+        if (!data) {
+          setIsError(true);
+        }
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsError(true);
+        setIsLoading(false);
+      });
   }
 
   useEffect(() => {
@@ -38,15 +51,25 @@ const OrderDetailPage = props => {
     router.push('/myorders');
   };
 
+  const showProductOrder = () => {
+    if (isLoading) {
+      return <AlternateSection empty />;
+    }
+
+    if (isError) {
+      return <AlternateSection error />;
+    }
+
+    return <FlightOrderDetail data={productData} />;
+  };
+
   return (
     <Section>
       <div className="container">
         <SectionHeader title="Order Detail" size={2} />
         <div className="tile is-ancestor">
           <div className="tile is-parent">
-            <div className="tile is-child box">
-              <FlightOrderDetail data={productData} />
-            </div>
+            <div className="tile is-child box">{showProductOrder}</div>
           </div>
           <div className="tile is-8 is-vertical is-parent">
             <div className="tile is-child box">
