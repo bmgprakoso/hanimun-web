@@ -4,11 +4,13 @@ import FlightSearchCard from '../../components/FlightSearchCard';
 import Section from '../../components/Section';
 import SectionHeader from '../../components/SectionHeader';
 import { BACKEND_URL, ENDPOINT } from '../../data/constants';
-import errorImage from '../../assets/images/error.png';
+import AlternateSection from '../../components/AlternateSection';
 
 const SearchResultPage = props => {
   const [results, setResults] = useState([]);
   const [dateQuery, setDateQuery] = useState('');
+  const [isError, setIsError] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
 
   async function fetchData() {
     const { fromID, toID, date } = props.location.state;
@@ -31,8 +33,11 @@ const SearchResultPage = props => {
           };
         });
         setResults(resultsData);
+        if (resultsData.length === 0) {
+          setIsEmpty(true);
+        }
       })
-      .catch(e => console.log(e));
+      .catch(() => setIsError(true));
   }
 
   useEffect(() => {
@@ -56,6 +61,18 @@ const SearchResultPage = props => {
       );
     });
 
+  const showResult = () => {
+    if (isError) {
+      return <AlternateSection error />;
+    }
+
+    if (isEmpty) {
+      return <AlternateSection empty />;
+    }
+
+    return <div>{generateFlightSearchResults()}</div>;
+  };
+
   return (
     <Section>
       <div className="container">
@@ -66,22 +83,7 @@ const SearchResultPage = props => {
           date={props.location.state.date}
         />
         <br />
-        {results === undefined || results.length === 0 ? (
-          <div className="columns is-mobile is-centered">
-            <div className="column is-narrow">
-              <figure className="image container is-96x96">
-                <img src={errorImage} alt="errorImage" />
-              </figure>
-              <div>
-                <p className="has-text-centered">
-                  Sorry, there was a problem in our system. Please try again later.
-                </p>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div>{generateFlightSearchResults()}</div>
-        )}
+        {showResult()}
       </div>
     </Section>
   );
