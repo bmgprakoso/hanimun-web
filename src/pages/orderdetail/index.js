@@ -17,8 +17,10 @@ const OrderDetailPage = props => {
   const [isShowModal, setIsShowModal] = useState('');
 
   async function fetchData() {
-    const { id } = props.location.state;
-    const res = await fetch(`${BACKEND_URL}${ENDPOINT.GET_FLIGHT_DETAIL}?flightId=${id}`);
+    const { id, date } = props.location.state;
+    const res = await fetch(
+      `${BACKEND_URL}${ENDPOINT.GET_FLIGHT_DETAIL}?flightId=${id}&date=${date}`,
+    );
     res
       .json()
       .then(r => setProductData(r.data[0]))

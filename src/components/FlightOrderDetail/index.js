@@ -16,7 +16,6 @@ const FlightOrderDetail = props => {
     price,
   } = props.data;
 
-  console.log(props.data);
   return (
     <div>
       <p className="title">Flight Detail</p>

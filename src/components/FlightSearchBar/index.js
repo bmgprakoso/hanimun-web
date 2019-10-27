@@ -19,9 +19,7 @@ const FlightSearchBar = props => {
   const [errorMsg, setErrorMsg] = useState('');
 
   async function fetchData() {
-    const res = await fetch(
-      `${BACKEND_URL}${ENDPOINT.GET_AIRPORT}`,
-    );
+    const res = await fetch(`${BACKEND_URL}${ENDPOINT.GET_AIRPORT}`);
     res
       .json()
       .then(r => {
@@ -99,8 +97,8 @@ const FlightSearchBar = props => {
       <div className="columns is-horizontal is-vcentered is-variable is-1">
         <div className="column">
           <div className="control is-expanded has-icons-left">
-            <div className="select">
-              <select className="FlightSearchBar__select" value={fromID} onChange={e => handleChange(e, FROM)}>
+            <div className="select is-fullwidth">
+              <select value={fromID} onChange={e => handleChange(e, FROM)}>
                 <option value="">From where?</option>
                 {airportSelection()}
               </select>
@@ -112,8 +110,8 @@ const FlightSearchBar = props => {
         </div>
         <div className="column">
           <div className="control is-expanded has-icons-left">
-            <div className="select">
-              <select className="FlightSearchBar__select" value={toID} onChange={e => handleChange(e, TO)}>
+            <div className="select is-fullwidth">
+              <select value={toID} onChange={e => handleChange(e, TO)}>
                 <option value="">To where?</option>
                 {airportSelection()}
               </select>

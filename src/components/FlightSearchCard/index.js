@@ -9,7 +9,7 @@ const FlightSearchCard = props => {
   const select = () => {
     router.push({
       pathname: '/orderdetail',
-      state: { id: props.flightId }
+      state: { id: props.flightId, date: props.date },
     });
   };
 
@@ -21,7 +21,9 @@ const FlightSearchCard = props => {
             <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder" />
           </div>
           <div className="column">
-            <div className="has-text-weight-bold">{`${formatHourMinute(props.departureTime)} — ${formatHourMinute(props.arrivalTime)}`}</div>
+            <div className="has-text-weight-bold">
+              {`${formatHourMinute(props.departureTime)} — ${formatHourMinute(props.arrivalTime)}`}
+            </div>
             <div>{props.airline}</div>
           </div>
           <div className="column">
