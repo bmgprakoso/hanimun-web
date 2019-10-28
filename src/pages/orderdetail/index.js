@@ -22,7 +22,7 @@ const OrderDetailPage = props => {
   async function fetchData() {
     const { id, date } = props.location.state;
     const res = await fetch(
-      `${BACKEND_URL}${ENDPOINT.GET_FLIGHT_DETAIL}?flightId=${id}&date=${date}`,
+      `${BACKEND_URL}${ENDPOINT.GET_FLIGHT_DETAIL}?flightId=862&date=${date}`,
     );
     res
       .json()

@@ -1,7 +1,7 @@
 import React from 'react';
 import Divider from '../Divider';
 import './styles.scss';
-import { formatHourMinute, timeDiff } from '../../util/display';
+import { formatHourMinute, timeDiff, formatPrice } from '../../util/display';
 
 const FlightOrderDetail = props => {
   const {
@@ -21,7 +21,7 @@ const FlightOrderDetail = props => {
       <p className="title">Flight Detail</p>
       <Divider color="dark" />
       <br />
-      <div className="has-text-weight-bold">{`${departureCity} (${departureAirportCode}) &#x2192; ${arrivalCity} (${arrivalAirportCode})`}</div>
+      <div className="has-text-weight-bold">{`${departureCity} (${departureAirportCode}) → ${arrivalCity} (${arrivalAirportCode})`}</div>
       <div>{airline}</div>
       <br />
       <div className="has-text-weight-bold">{date}</div>
@@ -46,7 +46,7 @@ const FlightOrderDetail = props => {
         <tbody>
           <tr>
             <td>Adult (x2)</td>
-            <td align="right">{price}</td>
+            <td align="right">{formatPrice(price)}</td>
           </tr>
           <tr>
             <td>Tax</td>
@@ -59,7 +59,7 @@ const FlightOrderDetail = props => {
           <tr>
             <td className="has-text-weight-bold">Total Payment</td>
             <td align="right" className="has-text-weight-bold">
-              {price}
+              {formatPrice(price)}
             </td>
           </tr>
         </tbody>

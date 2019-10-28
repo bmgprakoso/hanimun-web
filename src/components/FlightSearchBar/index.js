@@ -45,8 +45,8 @@ const FlightSearchBar = props => {
 
   const airportSelection = () =>
     airports.map(airport => (
-      <option key={`${airport.cityCode}${airport.airportCode}`} value={airport.cityCode}>
-        {`${airport.cityName} – ${airport.airportName}`}
+      <option key={`${airport.cityCode}`} value={airport.cityCode}>
+        {`${airport.cityName}`}
       </option>
     ));
 
