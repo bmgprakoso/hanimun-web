@@ -1,10 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useReducer } from 'react';
+import React, { useState, useReducer } from 'react';
 import Divider from '../Divider';
 import './styles.scss';
 
-const CustomerOrderDetail = () => {
+const Field = props => {
+  return <div />;
+};
+
+const CustomerOrderDetail = props => {
   const [userInput, setUserInput] = useReducer((state, newState) => ({ ...state, ...newState }), {
     firstCustomerName: '',
     firstCustomerIDNumber: '',
@@ -14,9 +18,50 @@ const CustomerOrderDetail = () => {
     email: '',
   });
 
+  const [error, setError] = useReducer((state, newState) => ({ ...state, ...newState }), {
+    firstCustomerName: '',
+    firstCustomerIDNumber: '',
+    secondCustomerName: '',
+    secondCustomerIDNumber: '',
+    phone: '',
+    email: '',
+  });
+
+  const [showErrors, setShowErrors] = useState(false);
+
+  const validate = (name, value) => {
+    const validEmailRegex = RegExp(
+      /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
+    );
+    const validPhone = RegExp(/^\d+$/);
+    switch (name) {
+      case 'firstCustomerName':
+      case 'secondCustomerName':
+        setError({ [name]: value.length < 5 ? 'Full Name must be 5 characters long.' : '' });
+        break;
+      case 'email':
+        setError({ [name]: !validEmailRegex.test(value) ? 'Email is not valid.' : '' });
+        break;
+      case 'phone':
+        setError({ [name]: !validPhone.test(value) ? 'Phone is not valid.' : '' });
+        break;
+      default:
+        break;
+    }
+  };
+
   const handleChange = evt => {
     const { name, value } = evt.target;
+    validate(name, value);
     setUserInput({ [name]: value });
+  };
+
+  const handleSubmit = () => {
+    if (Object.values(error).every(e => e === '')) {
+      setShowErrors(true);
+    } else if (props.onSubmit) {
+      props.onSubmit(userInput);
+    }
   };
 
   return (
@@ -24,7 +69,12 @@ const CustomerOrderDetail = () => {
       <p className="title">Customer Detail</p>
       <Divider color="dark" />
       <br />
-      <div>
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+      >
         <div className="field is-horizontal">
           <div className="field-label is-normal">
             <label className="label">Customer 1</label>
@@ -159,7 +209,7 @@ const CustomerOrderDetail = () => {
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
