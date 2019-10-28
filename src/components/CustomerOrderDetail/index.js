@@ -5,7 +5,35 @@ import Divider from '../Divider';
 import './styles.scss';
 
 const Field = props => {
-  return <div />;
+  return (
+    <div className="field is-horizontal">
+      <div className="field-label is-normal">
+        {props.label && <label className="label">{props.label}</label>}
+      </div>
+      <div className="field-body">
+        <div className="field is-expanded">
+          <div className={`field${props.addon ? ' has-addons' : ''}`}>
+            {props.addon && (
+              <p className="control">
+                <a className="button is-static">{props.addon}</a>
+              </p>
+            )}
+            <p className="control is-expanded">
+              <input
+                name="firstCustomerName"
+                value={props.value}
+                className="input"
+                type="text"
+                placeholder={props.placeholder}
+                onChange={props.onChange}
+              />
+            </p>
+          </div>
+          {props.help && <p className="help">{props.help}</p>}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 const CustomerOrderDetail = props => {
@@ -75,140 +103,44 @@ const CustomerOrderDetail = props => {
           handleSubmit();
         }}
       >
-        <div className="field is-horizontal">
-          <div className="field-label is-normal">
-            <label className="label">Customer 1</label>
-          </div>
-          <div className="field-body">
-            <div className="field is-expanded">
-              <div className="field has-addons">
-                <p className="control">
-                  <a className="button is-static">Mr.</a>
-                </p>
-                <p className="control is-expanded">
-                  <input
-                    name="firstCustomerName"
-                    value={userInput.firstCustomerName}
-                    className="input"
-                    type="text"
-                    placeholder="Name"
-                    onChange={handleChange}
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="field is-horizontal">
-          <div className="field-label" />
-          <div className="field-body">
-            <div className="field is-expanded">
-              <p className="control is-expanded has-icons-left">
-                <input
-                  name="firstCustomerIDNumber"
-                  value={userInput.firstCustomerIDNumber}
-                  className="input"
-                  type="text"
-                  placeholder="ID Card Number"
-                  onChange={handleChange}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-id-card" />
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="field is-horizontal">
-          <div className="field-label is-normal">
-            <label className="label">Customer 2</label>
-          </div>
-          <div className="field-body">
-            <div className="field is-expanded">
-              <div className="field has-addons">
-                <p className="control">
-                  <a className="button is-static">Mrs.</a>
-                </p>
-                <p className="control is-expanded">
-                  <input
-                    name="secondCustomerName"
-                    value={userInput.secondCustomerName}
-                    className="input"
-                    type="text"
-                    placeholder="Name"
-                    onChange={handleChange}
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="field is-horizontal">
-          <div className="field-label" />
-          <div className="field-body">
-            <div className="field is-expanded">
-              <p className="control is-expanded has-icons-left">
-                <input
-                  name="secondCustomerIDNumber"
-                  value={userInput.secondCustomerIDNumber}
-                  className="input"
-                  type="text"
-                  placeholder="ID Card Number"
-                  onChange={handleChange}
-                />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-id-card" />
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="field is-horizontal">
-          <div className="field-label is-normal">
-            <label className="label">Phone</label>
-          </div>
-          <div className="field-body">
-            <div className="field is-expanded">
-              <div className="field has-addons">
-                <p className="control">
-                  <a className="button is-static">+62</a>
-                </p>
-                <p className="control is-expanded">
-                  <input
-                    name="phone"
-                    value={userInput.phone}
-                    className="input"
-                    type="tel"
-                    placeholder="Your phone number"
-                    onChange={handleChange}
-                  />
-                </p>
-              </div>
-              <p className="help">Do not enter the first zero</p>
-            </div>
-          </div>
-        </div>
-        <div className="field is-horizontal">
-          <div className="field-label is-normal">
-            <label className="label">Email</label>
-          </div>
-          <div className="field-body">
-            <div className="field is-expanded">
-              <div className="field">
-                <p className="control is-expanded">
-                  <input
-                    name="email"
-                    value={userInput.email}
-                    className="input"
-                    type="email"
-                    placeholder="Your email"
-                    onChange={handleChange}
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Field
+          label="Customer 1"
+          value={userInput.firstCustomerName}
+          onChange={handleChange}
+          addon="Mr."
+          placeholder="Full Name"
+        />
+        <Field
+          value={userInput.firstCustomerIDNumber}
+          onChange={handleChange}
+          placeholder="ID Card Number"
+        />
+        <Field
+          label="Customer 2"
+          value={userInput.secondCustomerName}
+          onChange={handleChange}
+          addon="Mrs."
+          placeholder="Full Name"
+        />
+        <Field
+          value={userInput.secondCustomerIDNumber}
+          onChange={handleChange}
+          placeholder="ID Card Number"
+        />
+        <Field
+          label="Phone"
+          value={userInput.phone}
+          onChange={handleChange}
+          addon="+62"
+          placeholder="Phone Number"
+          help="Do not enter the first zero."
+        />
+        <Field
+          label="Email"
+          value={userInput.email}
+          onChange={handleChange}
+          placeholder="Email Address"
+        />
       </form>
     </div>
   );
