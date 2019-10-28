@@ -21,35 +21,47 @@ const FlightSearchCard = props => {
 
   return (
     <div className="card FlightSearchCard">
-      <div className="card-content">
-        <div className="columns is-vcentered">
-          <div className="column is-narrow">
-            <figure className="image container is-96x96">
-              <img src={airlineImage(props.airline)} alt="Placeholder" />
-            </figure>
-          </div>
-          <div className="column">
-            <div className="has-text-weight-bold">
-              {`${formatHourMinute(props.departureTime)} — ${formatHourMinute(props.arrivalTime)}`}
+      <div className="columns is-gapless">
+        <div className="column">
+          <div className="card-content">
+            <div className="columns is-vcentered">
+              <div className="column is-narrow">
+                <figure className="image container is-96x96">
+                  <img src={airlineImage(props.airline)} alt="Placeholder" />
+                </figure>
+              </div>
+              <div className="column">
+                <div className="has-text-weight-bold">
+                  {`${formatHourMinute(props.departureTime)} — ${formatHourMinute(
+                    props.arrivalTime,
+                  )}`}
+                </div>
+                <div>{props.airline}</div>
+              </div>
+              <div className="column">
+                <div className="has-text-weight-bold">
+                  {timeDiff(props.departureTime, props.arrivalTime)}
+                </div>
+                <div>{`${props.departureAirportCode} — ${props.arrivalAirportCode}`}</div>
+              </div>
             </div>
-            <div>{props.airline}</div>
           </div>
-          <div className="column">
-            <div className="has-text-weight-bold">
-              {timeDiff(props.departureTime, props.arrivalTime)}
+        </div>
+        <div className="column is-narrow">
+          <div className="card-content has-background-light">
+            <div className="columns is-vcentered">
+              <div className="column is-narrow">
+                <div className="is-size-7">{`${formatPrice(props.price)}/pax`}</div>
+                <div className="is-size-4 has-text-weight-bold">{formatPrice(props.price * 2)}</div>
+                <button
+                  type="submit"
+                  className="button is-success FlightSearchCard__select-button"
+                  onClick={select}
+                >
+                  Select
+                </button>
+              </div>
             </div>
-            <div>{`${props.departureAirportCode} — ${props.arrivalAirportCode}`}</div>
-          </div>
-          <div className="column is-narrow">
-            <div className="is-size-7">{`${formatPrice(props.price)}/pax`}</div>
-            <div className="is-size-4 has-text-weight-bold">{formatPrice(props.price * 2)}</div>
-            <button
-              type="submit"
-              className="button is-success FlightSearchCard__select-button"
-              onClick={select}
-            >
-              Select
-            </button>
           </div>
         </div>
       </div>
