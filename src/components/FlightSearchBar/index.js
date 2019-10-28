@@ -23,7 +23,10 @@ const FlightSearchBar = props => {
     res
       .json()
       .then(r => {
-        const result = r.data.map(e => {
+        const uniques = r.data.filter(
+          (v, i, a) => a.findIndex(t => t.cityCode === v.cityCode) === i,
+        );
+        const results = uniques.map(e => {
           return {
             airportCode: e.airportCode,
             airportName: e.airportName,
@@ -31,7 +34,7 @@ const FlightSearchBar = props => {
             cityName: e.cityName,
           };
         });
-        setAirports(result);
+        setAirports(results);
       })
       .catch(e => console.log(e));
   }
