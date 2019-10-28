@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRouter } from '../../util/router';
 import { formatHourMinute, formatPrice, timeDiff } from '../../util/display';
+import { AIRLINE_LOGO } from '../../data/constants';
 import './styles.scss';
 
 const FlightSearchCard = props => {
@@ -13,12 +14,19 @@ const FlightSearchCard = props => {
     });
   };
 
+  const airlineImage = airline => {
+    const logo = AIRLINE_LOGO.find(a => a.name === airline);
+    return logo.url;
+  };
+
   return (
     <div className="card FlightSearchCard">
       <div className="card-content">
         <div className="columns is-vcentered">
           <div className="column is-narrow">
-            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder" />
+            <figure className="image container is-96x96">
+              <img src={airlineImage(props.airline)} alt="Placeholder" />
+            </figure>
           </div>
           <div className="column">
             <div className="has-text-weight-bold">
@@ -33,11 +41,11 @@ const FlightSearchCard = props => {
             <div>{`${props.departureAirportCode} — ${props.arrivalAirportCode}`}</div>
           </div>
           <div className="column is-narrow">
-            <div className="is-size-7 is-pulled-right">{`${formatPrice(props.price)}/pax`}</div>
+            <div className="is-size-7">{`${formatPrice(props.price)}/pax`}</div>
             <div className="is-size-4 has-text-weight-bold">{formatPrice(props.price * 2)}</div>
             <button
               type="submit"
-              className="button is-success is-pulled-right FlightSearchCard__select-button"
+              className="button is-success FlightSearchCard__select-button"
               onClick={select}
             >
               Select
