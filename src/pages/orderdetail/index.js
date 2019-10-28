@@ -51,17 +51,25 @@ const OrderDetailPage = props => {
     router.push('/myorders');
   };
 
-  const showProductOrder = () => {
-    if (isLoading) {
-      return <AlternateSection empty />;
-    }
+  if (isLoading) {
+    return (
+      <Section>
+        <div className="container OrderDetail__alternate-view">
+          <AlternateSection loading />
+        </div>
+      </Section>
+    );
+  }
 
-    if (isError) {
-      return <AlternateSection error />;
-    }
-
-    return <FlightOrderDetail data={productData} />;
-  };
+  if (isError) {
+    return (
+      <Section>
+        <div className="container OrderDetail__alternate-view">
+          <AlternateSection error />
+        </div>
+      </Section>
+    );
+  }
 
   return (
     <Section>
@@ -69,7 +77,9 @@ const OrderDetailPage = props => {
         <SectionHeader title="Order Detail" size={2} />
         <div className="tile is-ancestor">
           <div className="tile is-parent">
-            <div className="tile is-child box">{showProductOrder}</div>
+            <div className="tile is-child box">
+              <FlightOrderDetail data={productData} />
+            </div>
           </div>
           <div className="tile is-8 is-vertical is-parent">
             <div className="tile is-child box">
