@@ -45,10 +45,14 @@ const OrderDetailPage = props => {
   }, []);
 
   const checkout = () => {
-    setIsShowModal(true);
+    // setIsShowModal(true);
   };
   const done = () => {
     router.push('/myorders');
+  };
+
+  const handleUserDetail = data => {
+    // console.log(data);
   };
 
   if (isLoading) {
@@ -83,7 +87,7 @@ const OrderDetailPage = props => {
           </div>
           <div className="tile is-8 is-vertical is-parent">
             <div className="tile is-child box">
-              <CustomerOrderDetail />
+              <CustomerOrderDetail onUserInputChange={handleUserDetail} />
             </div>
             <div className="tile is-child box">
               <PaymentOrderDetail />
