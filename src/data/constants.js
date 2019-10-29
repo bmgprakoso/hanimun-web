@@ -3,6 +3,7 @@ const ENDPOINT = {
   GET_AIRPORT: 'airport',
   GET_FLIGHT_SEARCH_RESULT: 'flight/list',
   GET_FLIGHT_DETAIL: 'flight/detail',
+  POST_ORDER_SUBMIT: 'order/submit',
 };
 
 const AIRLINE_LOGO = [

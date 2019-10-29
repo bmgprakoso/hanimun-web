@@ -14,7 +14,7 @@ import AlternateSection from '../../components/AlternateSection';
 const validEmailRegex = RegExp(
   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
 );
-const validPhone = RegExp(/^\d+$/);
+const validNumber = RegExp(/^\d+$/);
 
 const Field = props => {
   return (
@@ -38,6 +38,7 @@ const Field = props => {
                 type="text"
                 placeholder={props.placeholder}
                 onChange={e => props.onChange(e.target.value)}
+                type={props.type}
               />
             </p>
           </div>
@@ -59,13 +60,18 @@ const OrderDetailPage = props => {
   const [isError, setIsError] = useState(false);
 
   // inputs
+  // customer
   const [firstCustomerName, setFirstCustomerName] = useState('');
   const [secondCustomerName, setSecondCustomerName] = useState('');
   const [firstCustomerIDNumber, setFirstCustomerIDNumber] = useState('');
   const [secondCustomerIDNumber, setSecondCustomerIDNumber] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-
+  // payment
+  const [cardHolderName, setCardHolderName] = useState('');
+  const [ccNumber, setCCNumber] = useState('');
+  const [expirationDate, setExpirationDate] = useState('');
+  const [cvc, setCVC] = useState('');
   // errors
   const errors = [];
   const [showErrorHelp, setShowErrorHelp] = useState(false);
@@ -118,6 +124,34 @@ const OrderDetailPage = props => {
     });
   }
 
+  if (isEmpty(ccNumber)) {
+    errors.push({
+      field: 'ccNumber',
+      message: "This field can't be empty",
+    });
+  }
+
+  if (isEmpty(cardHolderName)) {
+    errors.push({
+      field: 'cardHolderName',
+      message: "This field can't be empty",
+    });
+  }
+
+  if (isEmpty(expirationDate)) {
+    errors.push({
+      field: 'expirationDate',
+      message: "This field can't be empty",
+    });
+  }
+
+  if (isEmpty(cvc)) {
+    errors.push({
+      field: 'cvc',
+      message: "This field can't be empty",
+    });
+  }
+
   if (firstCustomerName.length < 5) {
     errors.push({
       field: 'firstCustomerName',
@@ -132,7 +166,7 @@ const OrderDetailPage = props => {
     });
   }
 
-  if (!validPhone.test(phone)) {
+  if (!validNumber.test(phone)) {
     errors.push({
       field: 'phone',
       message: 'Phone is not valid.',
@@ -143,6 +177,27 @@ const OrderDetailPage = props => {
     errors.push({
       field: 'email',
       message: 'Email is not valid.',
+    });
+  }
+
+  if (!validNumber.test(ccNumber)) {
+    errors.push({
+      field: 'ccNumber',
+      message: 'Card is not valid.',
+    });
+  }
+
+  if (cardHolderName.length < 5) {
+    errors.push({
+      field: 'cardHolderName',
+      message: 'Full Name must be 5 characters long.',
+    });
+  }
+
+  if (!validNumber.test(cvc)) {
+    errors.push({
+      field: 'cvc',
+      message: 'CVC is not valid.',
     });
   }
 
@@ -167,6 +222,10 @@ const OrderDetailPage = props => {
       });
   }
 
+  async function submitData() {
+    const res = await fetch(`${BACKEND_URL}${ENDPOINT.POST_ORDER_SUBMIT}`);
+  }
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -175,6 +234,7 @@ const OrderDetailPage = props => {
     if (errors.length) {
       setShowErrorHelp(true);
     } else {
+      // TODO
       setIsShowModal(true);
     }
   };
@@ -274,7 +334,46 @@ const OrderDetailPage = props => {
               </div>
             </div>
             <div className="tile is-child box">
-              <PaymentOrderDetail />
+              <div>
+                <p className="title">Payment Detail</p>
+                <Divider color="dark" />
+                <br />
+                <div>
+                  <Field
+                    label="CC Number"
+                    name="ccNumber"
+                    value={ccNumber}
+                    onChange={value => setCCNumber(value)}
+                    placeholder="Your Card Number"
+                    error={showErrorHelp && getError('ccNumber')}
+                  />
+                  <Field
+                    label="Name"
+                    name="cardHolderName"
+                    value={cardHolderName}
+                    onChange={value => setCardHolderName(value)}
+                    placeholder="You Name on Card"
+                    error={showErrorHelp && getError('cardHolderName')}
+                  />
+                  <Field
+                    label="Expiration Date"
+                    name="expirationDate"
+                    value={expirationDate}
+                    onChange={value => setExpirationDate(value)}
+                    placeholder="Expiration Date of the Card"
+                    error={showErrorHelp && getError('expirationDate')}
+                    type="month"
+                  />
+                  <Field
+                    label="CVC"
+                    name="cvc"
+                    value={cvc}
+                    onChange={value => setCVC(value)}
+                    placeholder="Card's CVC"
+                    error={showErrorHelp && getError('cvc')}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
