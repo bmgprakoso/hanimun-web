@@ -223,7 +223,38 @@ const OrderDetailPage = props => {
   }
 
   async function submitData() {
-    const res = await fetch(`${BACKEND_URL}${ENDPOINT.POST_ORDER_SUBMIT}`);
+    const body = {
+      orderDate: '',
+      orderTime: '',
+      price: '',
+      flightDetail: {
+        flightId: productData.flightId,
+        numberOfSeat: 2,
+        price: '',
+        date: '',
+      },
+      orderData: {
+        email: '',
+        titleFirstPassenger: 'Mr.',
+        nameFirstPassenger: '',
+        titleSecondPassenger: 'Mrs.',
+        nameSecondPassenger: '',
+        phone: '',
+        identityNumber: '',
+      },
+    };
+    const res = await fetch(`${BACKEND_URL}${ENDPOINT.POST_ORDER_SUBMIT}`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+    res
+      .json()
+      .then()
+      .catch();
   }
 
   useEffect(() => {
