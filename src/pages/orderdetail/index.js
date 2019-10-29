@@ -11,6 +11,11 @@ import { useRouter } from '../../util/router';
 import { BACKEND_URL, ENDPOINT } from '../../data/constants';
 import AlternateSection from '../../components/AlternateSection';
 
+const validEmailRegex = RegExp(
+  /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
+);
+const validPhone = RegExp(/^\d+$/);
+
 const Field = props => {
   return (
     <div className="field is-horizontal">
@@ -32,12 +37,12 @@ const Field = props => {
                 className="input"
                 type="text"
                 placeholder={props.placeholder}
-                onChange={props.onChange}
+                onChange={e => props.onChange(e.target.value)}
               />
             </p>
           </div>
           {props.help && <p className="help">{props.help}</p>}
-          {props.error && <p className="help is-danger">{props.error}</p>}
+          {props.error && <p className="help is-danger">{props.error.message}</p>}
         </div>
       </div>
     </div>
@@ -62,62 +67,84 @@ const OrderDetailPage = props => {
   const [email, setEmail] = useState('');
 
   // errors
-  const [error, setError] = useReducer((state, newState) => ({ ...state, ...newState }), {
-    firstCustomerName: '',
-    firstCustomerIDNumber: '',
-    secondCustomerName: '',
-    secondCustomerIDNumber: '',
-    phone: '',
-    email: '',
-  });
+  const errors = [];
   const [showErrorHelp, setShowErrorHelp] = useState(false);
 
-  const validate = (name, value) => {
-    const validEmailRegex = RegExp(
-      /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
-    );
-    const validPhone = RegExp(/^\d+$/);
-    switch (name) {
-      case 'firstCustomerName':
-      case 'secondCustomerName':
-        setError({ [name]: value.length >= 5 ? '' : 'Full Name must be 5 characters long.' });
-        break;
-      case 'email':
-        setError({ [name]: validEmailRegex.test(value) ? '' : 'Email is not valid.' });
-        break;
-      case 'phone':
-        setError({ [name]: validPhone.test(value) ? '' : 'Phone is not valid.' });
-        break;
-      default:
-        break;
-    }
+  const getError = field => {
+    return errors.find(e => e.field === field);
   };
 
-  const handleChange = evt => {
-    const { name, value } = evt.target;
-    switch (name) {
-      case 'firstCustomerName':
-        setFirstCustomerName(value);
-        break;
-      case 'firstCustomerIDNumber':
-        setFirstCustomerIDNumber(value);
-        break;
-      case 'secondCustomerName':
-        setSecondCustomerName(value);
-        break;
-      case 'secondCustomerIDNumber':
-        setSecondCustomerIDNumber(value);
-        break;
-      case 'phone':
-        setPhone(value);
-        break;
-      case 'email':
-        setEmail(value);
-        break;
-      default:
-        break;
-    }
-  };
+  const isEmpty = val => val.trim() === '';
+
+  if (isEmpty(firstCustomerName)) {
+    errors.push({
+      field: 'firstCustomerName',
+      message: "This field can't be empty",
+    });
+  }
+
+  if (isEmpty(firstCustomerIDNumber)) {
+    errors.push({
+      field: 'firstCustomerIDNumber',
+      message: "This field can't be empty",
+    });
+  }
+
+  if (isEmpty(secondCustomerName)) {
+    errors.push({
+      field: 'secondCustomerName',
+      message: "This field can't be empty",
+    });
+  }
+
+  if (isEmpty(secondCustomerIDNumber)) {
+    errors.push({
+      field: 'secondCustomerIDNumber',
+      message: "This field can't be empty",
+    });
+  }
+
+  if (isEmpty(phone)) {
+    errors.push({
+      field: 'phone',
+      message: "This field can't be empty",
+    });
+  }
+
+  if (isEmpty(email)) {
+    errors.push({
+      field: 'email',
+      message: "This field can't be empty",
+    });
+  }
+
+  if (firstCustomerName.length < 5) {
+    errors.push({
+      field: 'firstCustomerName',
+      message: 'Full Name must be 5 characters long.',
+    });
+  }
+
+  if (secondCustomerName.length < 5) {
+    errors.push({
+      field: 'secondCustomerName',
+      message: 'Full Name must be 5 characters long.',
+    });
+  }
+
+  if (!validPhone.test(phone)) {
+    errors.push({
+      field: 'phone',
+      message: 'Phone is not valid.',
+    });
+  }
+
+  if (!validEmailRegex.test(email)) {
+    errors.push({
+      field: 'email',
+      message: 'Email is not valid.',
+    });
+  }
 
   async function fetchData() {
     const { id, date } = props.location.state;
@@ -145,19 +172,10 @@ const OrderDetailPage = props => {
   }, []);
 
   const checkout = () => {
-    validate('firstCustomerName', firstCustomerName);
-    validate('firstCustomerIDNumber', firstCustomerIDNumber);
-    validate('secondCustomerName', secondCustomerName);
-    validate('setSecondCustomerIDNumber', secondCustomerIDNumber);
-    validate('phone', phone);
-    validate('email', email);
-
-    console.log(error);
-
-    if (Object.values(error).every(e => e === '')) {
-      setIsShowModal(true);
-    } else {
+    if (errors.length) {
       setShowErrorHelp(true);
+    } else {
+      setIsShowModal(true);
     }
   };
   const done = () => {
@@ -206,51 +224,51 @@ const OrderDetailPage = props => {
                     label="Customer 1"
                     name="firstCustomerName"
                     value={firstCustomerName}
-                    onChange={handleChange}
+                    onChange={value => setFirstCustomerName(value)}
                     addon="Mr."
                     placeholder="Full Name"
-                    error={showErrorHelp && error.firstCustomerName}
+                    error={showErrorHelp && getError('firstCustomerName')}
                   />
                   <Field
                     name="firstCustomerIDNumber"
                     value={firstCustomerIDNumber}
-                    onChange={handleChange}
+                    onChange={value => setFirstCustomerIDNumber(value)}
                     placeholder="ID Card Number"
-                    error={showErrorHelp && error.firstCustomerIDNumber}
+                    error={showErrorHelp && getError('firstCustomerIDNumber')}
                   />
                   <Field
                     label="Customer 2"
                     name="secondCustomerName"
                     value={secondCustomerName}
-                    onChange={handleChange}
+                    onChange={value => setSecondCustomerName(value)}
                     addon="Mrs."
                     placeholder="Full Name"
-                    error={showErrorHelp && error.secondCustomerName}
+                    error={showErrorHelp && getError('secondCustomerName')}
                   />
                   <Field
                     name="secondCustomerIDNumber"
                     value={secondCustomerIDNumber}
-                    onChange={handleChange}
+                    onChange={value => setSecondCustomerIDNumber(value)}
                     placeholder="ID Card Number"
-                    error={showErrorHelp && error.secondCustomerIDNumber}
+                    error={showErrorHelp && getError('secondCustomerIDNumber')}
                   />
                   <Field
                     label="Phone"
                     name="phone"
                     value={phone}
-                    onChange={handleChange}
+                    onChange={value => setPhone(value)}
                     addon="+62"
                     placeholder="Phone Number"
                     help="Do not enter the first zero."
-                    error={showErrorHelp && error.phone}
+                    error={showErrorHelp && getError('phone')}
                   />
                   <Field
                     label="Email"
                     name="email"
                     value={email}
-                    onChange={handleChange}
+                    onChange={value => setEmail(value)}
                     placeholder="Email Address"
-                    error={showErrorHelp && error.email}
+                    error={showErrorHelp && getError('email')}
                   />
                 </div>
               </div>
