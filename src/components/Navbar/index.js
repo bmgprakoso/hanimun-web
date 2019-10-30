@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import NavbarContainer from "./../NavbarContainer";
-import { Link } from "./../../util/router.js";
-import { useAuth } from "./../../util/auth.js";
-import "./styles.scss";
+import React, { useState } from 'react';
+import NavbarContainer from "../NavbarContainer";
+import { Link } from "../../util/router.js";
+import { useAuth } from "../../util/auth.js";
+import './styles.scss';
 
 function Navbar(props) {
   const auth = useAuth();
@@ -18,7 +18,7 @@ function Navbar(props) {
             </Link>
           </div>
           <div
-            className={"navbar-burger burger" + (menuOpen ? " is-active" : "")}
+            className={`navbar-burger burger${  menuOpen ? ' is-active' : ''}`}
             onClick={() => setMenuOpen(!menuOpen)}
           >
             <span />
@@ -26,7 +26,7 @@ function Navbar(props) {
             <span />
           </div>
         </div>
-        <div className={"navbar-menu" + (menuOpen ? " is-active" : "")}>
+        <div className={`navbar-menu${  menuOpen ? ' is-active' : ''}`}>
           <div className="navbar-end">
             {auth.user && (
               <div className="navbar-item has-dropdown is-hoverable">
@@ -34,8 +34,8 @@ function Navbar(props) {
                   Account
                 </Link>
                 <div className="navbar-dropdown is-boxed">
-                  <Link className="navbar-item" to="/dashboard">
-                    Dashboard
+                  <Link className="navbar-item" to="/myorders">
+                    My Orders
                   </Link>
                   <Link
                     className="navbar-item"

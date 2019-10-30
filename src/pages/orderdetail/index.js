@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable max-len */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
@@ -203,25 +205,58 @@ const OrderDetailPage = props => {
     });
   }
 
-  async function fetchData() {
+  async function fetchAll() {
     const { id, date } = props.location.state;
-    const res = await fetch(
-      `${BACKEND_URL}${ENDPOINT.GET_FLIGHT_DETAIL}?flightId=862&date=${date}`,
-    );
-    res
-      .json()
-      .then(r => {
-        const data = r.data[0];
-        setProductData(r.data[0]);
-        if (!data) {
+
+    try {
+      await Promise.all([
+        fetch(`${BACKEND_URL}${ENDPOINT.GET_FLIGHT_DETAIL}?flightId=862&date=${date}`).then(
+          response => response.json(),
+        ),
+        fetch(`${BACKEND_URL}${ENDPOINT.GET_PASSENGER}?email=${auth.user}`).then(response =>
+          response.json(),
+        ),
+        fetch(`${BACKEND_URL}${ENDPOINT.GET_PAYMENT}?email=${auth.user}`).then(response =>
+          response.json(),
+        ),
+      ])
+        .then(r => {
+          const [orderRes, passengerRes, paymentRes] = r;
+          // order
+          if (orderRes.data[0]) {
+            setProductData(orderRes.data[0]);
+          } else {
+            setIsError(true);
+          }
+
+          // passenger
+          const { passengerData } = passengerRes;
+          if (passengerData) {
+            const firstCustomer = passengerData[0];
+            const secondCustomer = passengerData[1];
+            setFirstCustomerName(firstCustomer.name);
+            setFirstCustomerIDNumber(firstCustomer.identityNumber);
+            setSecondCustomerName(secondCustomer.name);
+            setSecondCustomerIDNumber(secondCustomer.identityNumber);
+          }
+
+          // payment
+          const { paymentData } = paymentRes;
+          if (paymentData) {
+            setCCNumber(paymentData.cardNumber);
+            setCardHolderName(paymentData.cardHolderName);
+            setExpirationDate(paymentData.validDate);
+            setCVC(paymentData.cvv);
+          }
+          setIsLoading(false);
+        })
+        .catch(() => {
           setIsError(true);
-        }
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setIsError(true);
-        setIsLoading(false);
-      });
+          setIsLoading(false);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async function submitOrder() {
@@ -269,7 +304,7 @@ const OrderDetailPage = props => {
   }
 
   useEffect(() => {
-    fetchData();
+    fetchAll();
   }, []);
 
   const checkout = () => {
