@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../util/auth';
 import FlightOrderDetail from '../../components/FlightOrderDetail';
 import Section from '../../components/Section';
 import SectionHeader from '../../components/SectionHeader';
@@ -50,11 +51,13 @@ const Field = props => {
 };
 
 const OrderDetailPage = props => {
+  const auth = useAuth();
   const router = useRouter();
 
   // fetch data
   const [productData, setProductData] = useState({});
-  const [isShowModal, setIsShowModal] = useState('');
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [isShowErrorModal, setIsShowErrorModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
@@ -221,25 +224,30 @@ const OrderDetailPage = props => {
       });
   }
 
-  async function submitData() {
+  async function submitOrder() {
+    const { date } = props.location.state;
+    const dateNow = new Date();
+    const orderDate = `${dateNow.getFullYear()}-${dateNow.getMonth()}-${dateNow.getDate()}`;
+    const orderTime = `${dateNow.getHours()}:${dateNow.getMinutes()}:${dateNow.getSeconds()}`;
+
     const body = {
-      orderDate: '',
-      orderTime: '',
-      price: '',
+      orderDate,
+      orderTime,
+      price: productData.price,
       flightDetail: {
         flightId: productData.flightId,
         numberOfSeat: 2,
-        price: '',
-        date: '',
+        price: productData.price,
+        date,
       },
       orderData: {
-        email: '',
+        email,
         titleFirstPassenger: 'Mr.',
-        nameFirstPassenger: '',
+        nameFirstPassenger: firstCustomerName,
         titleSecondPassenger: 'Mrs.',
-        nameSecondPassenger: '',
-        phone: '',
-        identityNumber: '',
+        nameSecondPassenger: secondCustomerName,
+        phone,
+        identityNumber: firstCustomerIDNumber,
       },
     };
     const res = await fetch(`${BACKEND_URL}${ENDPOINT.POST_ORDER_SUBMIT}`, {
@@ -252,8 +260,12 @@ const OrderDetailPage = props => {
     });
     res
       .json()
-      .then()
-      .catch();
+      .then(() => {
+        setIsShowModal(true);
+      })
+      .catch(() => {
+        setIsShowErrorModal(true);
+      });
   }
 
   useEffect(() => {
@@ -264,13 +276,20 @@ const OrderDetailPage = props => {
     if (errors.length) {
       setShowErrorHelp(true);
     } else {
-      // TODO
-      setIsShowModal(true);
+      submitOrder();
     }
   };
-  const done = () => {
+  const closeModal = () => {
     setIsShowModal(false);
-    // router.push('/myorders');
+    if (auth.user) {
+      router.push('/myorders');
+    } else {
+      router.push('/');
+    }
+  };
+
+  const closeErrorModal = () => {
+    setIsShowErrorModal(false);
   };
 
   if (isLoading) {
@@ -420,23 +439,42 @@ const OrderDetailPage = props => {
           <div className="modal-background" />
           <div className="modal-content">
             <div className="box">
-              <p className="has-text-weight-bold has-text-centered is-size-4">Thank You</p>
+              <p className="has-text-weight-bold has-text-centered is-size-4">Thank You.</p>
               <br />
               <span className="OrderDetail__success-icon has-text-success">
                 <i className="fas fa-3x fa-check-circle" />
               </span>
               <br />
-              <p className="has-text-centered">Your order has been paid successfully</p>
+              <p className="has-text-centered">Your order has been paid successfully.</p>
+              {!auth.user && (
+                <p className="has-text-centered">The order detail is sent to your email.</p>
+              )}
               <br />
               <div className="field is-grouped is-grouped-centered">
                 <p className="control">
-                  <button type="button" className="button is-primary" onClick={done}>
-                    Go To My Order
+                  <button type="button" className="button is-primary" onClick={closeModal}>
+                    {auth.user ? 'Go To My Order' : 'Go To Home'}
                   </button>
                 </p>
               </div>
             </div>
           </div>
+        </div>
+      )}
+      {isShowErrorModal && (
+        <div className="modal is-active">
+          <div className="modal-background" onClick={closeErrorModal} />
+          <div className="modal-content">
+            <div className="box">
+              Sorry, there was a problem in our system. Please try again later.
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={closeErrorModal}
+            className="modal-close is-large"
+            aria-label="close"
+          />
         </div>
       )}
     </Section>
