@@ -7,9 +7,8 @@ function HomePage() {
     <HeroSection
       color="primary"
       size="large"
-      title="Lorem ipsum dolor sit amet"
-      subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper ultricies nisi sed maximus."
-      buttonText="Start Free Trial"
+      title="Honeymoon? Hanimun aja."
+      subtitle="Find and compare cheap flights."
     />
   );
 }

@@ -6,7 +6,6 @@ import Section from '../../components/Section';
 import SectionHeader from '../../components/SectionHeader';
 import './styles.scss';
 import Divider from '../../components/Divider';
-import PaymentOrderDetail from '../../components/PaymentOrderDetail';
 import { useRouter } from '../../util/router';
 import { BACKEND_URL, ENDPOINT } from '../../data/constants';
 import AlternateSection from '../../components/AlternateSection';

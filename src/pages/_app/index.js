@@ -18,7 +18,7 @@ function App() {
   return (
     <ProvideAuth>
       <Router>
-        <Navbar color="primary" spaced logo="https://uploads.divjoy.com/logo-white.svg" />
+        <Navbar color="primary" spaced logo="http://tinyimg.io/i/HpHHvBy.png" />
 
         <Switch>
           <Route exact path="/" component={HomePage} />
@@ -59,9 +59,9 @@ function App() {
         <Divider color="light" />
         <Footer
           color="white"
-          logo="https://uploads.divjoy.com/logo.svg"
-          description="A short description of what you do here"
-          copyright="© Company Name"
+          logo="http://tinyimg.io/i/HpHHvBy.png"
+          description="Hanimun is a free and inspirational global travel search site for your honeymoon occasion"
+          copyright="© Hanimun"
         />
       </Router>
     </ProvideAuth>
