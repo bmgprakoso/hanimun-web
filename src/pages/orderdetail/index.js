@@ -259,13 +259,39 @@ const OrderDetailPage = props => {
     }
   }
 
-  async function submitOrder() {
+  async function submitAll() {
     const { date } = props.location.state;
     const dateNow = new Date();
     const orderDate = `${dateNow.getFullYear()}-${dateNow.getMonth()}-${dateNow.getDate()}`;
     const orderTime = `${dateNow.getHours()}:${dateNow.getMinutes()}:${dateNow.getSeconds()}`;
+    const passengers = [];
+    const parts = expirationDate.split('-');
+    const validDate = `${parts[1]}/${parts[0]}`;
+    passengers.push({
+      name: firstCustomerName,
+      gender: 'L',
+      identityNumber: firstCustomerIDNumber,
+    });
+    passengers.push({
+      name: secondCustomerName,
+      gender: 'P',
+      identityNumber: secondCustomerIDNumber,
+    });
 
-    const body = {
+    const registerBody = {
+      email: auth.user.email,
+      passengers,
+    };
+
+    const paymentMethodBody = {
+      email: auth.user.email,
+      cardNumber: ccNumber,
+      cardHolderName,
+      validDate,
+      cvv: cvc,
+    };
+
+    const orderBody = {
       orderDate,
       orderTime,
       price: productData.price,
@@ -285,22 +311,48 @@ const OrderDetailPage = props => {
         identityNumber: firstCustomerIDNumber,
       },
     };
-    const res = await fetch(`${BACKEND_URL}${ENDPOINT.POST_ORDER_SUBMIT}`, {
+
+    const init = {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(body),
-    });
-    res
-      .json()
-      .then(() => {
-        setIsShowModal(true);
-      })
-      .catch(() => {
-        setIsShowErrorModal(true);
-      });
+    };
+
+    console.log('registerBody', registerBody);
+    console.log('paymentMethodBody', paymentMethodBody);
+    console.log('orderBody', orderBody);
+
+    try {
+      if (auth.user) {
+        await Promise.all([
+          fetch(`${BACKEND_URL}${ENDPOINT.POST_REGISTER}`, {
+            ...init,
+            body: JSON.stringify(registerBody),
+          }),
+          fetch(`${BACKEND_URL}${ENDPOINT.POST_PAYMENT_METHOD}`, {
+            ...init,
+            body: JSON.stringify(paymentMethodBody),
+          }),
+          fetch(`${BACKEND_URL}${ENDPOINT.POST_ORDER_SUBMIT}`, {
+            ...init,
+            body: JSON.stringify(orderBody),
+          }),
+        ])
+          .then(setIsShowModal(true))
+          .catch(setIsShowErrorModal(true));
+      } else {
+        await fetch(`${BACKEND_URL}${ENDPOINT.POST_ORDER_SUBMIT}`, {
+          ...init,
+          body: JSON.stringify(orderBody),
+        })
+          .then(setIsShowModal(true))
+          .catch(setIsShowErrorModal(true));
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -311,7 +363,7 @@ const OrderDetailPage = props => {
     if (errors.length) {
       setShowErrorHelp(true);
     } else {
-      submitOrder();
+      submitAll();
     }
   };
   const closeModal = () => {

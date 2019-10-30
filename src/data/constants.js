@@ -6,6 +6,8 @@ const ENDPOINT = {
   GET_PAYMENT: 'user/payment',
   GET_FLIGHT_DETAIL: 'flight/detail',
   POST_ORDER_SUBMIT: 'order/submit',
+  POST_REGISTER: 'register',
+  POST_PAYMENT_METHOD: 'user/submit-payment',
 };
 
 const AIRLINE_LOGO = [
