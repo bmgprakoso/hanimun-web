@@ -10,6 +10,12 @@ const ENDPOINT = {
   POST_PAYMENT_METHOD: 'user/submit-payment',
 };
 
+const PRODUCT_TYPE = {
+  FLIGHT: 'FLIGHT',
+  HOTEL: 'HOTEL',
+  PACKAGE: 'PACKAGE',
+};
+
 const AIRLINE_LOGO = [
   {
     name: 'Garuda Indonesia',
@@ -41,4 +47,4 @@ const AIRLINE_LOGO = [
   },
 ];
 
-export { BACKEND_URL, ENDPOINT, AIRLINE_LOGO };
+export { BACKEND_URL, ENDPOINT, PRODUCT_TYPE, AIRLINE_LOGO };
