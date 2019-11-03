@@ -100,7 +100,7 @@ const HotelSearchBar = props => {
               </select>
             </div>
             <div className="icon is-small is-left">
-              <i className="fas fa-plane-departure" />
+              <i className="fas fa-search-location" />
             </div>
           </div>
         </div>

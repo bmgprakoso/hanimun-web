@@ -1,10 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import FlightSearchBar from '../../components/FlightSearchBar';
-import FlightSearchCard from '../../components/FlightSearchCard';
-import Section from '../../components/Section';
-import SectionHeader from '../../components/SectionHeader';
-import { BACKEND_URL, ENDPOINT, PRODUCT_TYPE } from '../../data/constants';
-import AlternateSection from '../../components/AlternateSection';
+import React from 'react';
+import { PRODUCT_TYPE } from '../../data/constants';
 import FlightSearchResult from '../../components/FlightSearchResult';
 import HotelSearchResult from '../../components/HotelSearchResult';
 
