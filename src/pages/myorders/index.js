@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import Section from '../../components/Section';
 import SectionHeader from '../../components/SectionHeader';
 import MyOrderCard from '../../components/MyOrderCard';
+import FlightHistory from '../../components/FlightHistory';
 
 const FLIGHT = 'FLIGHT';
 const HOTEL = 'HOTEL';
@@ -48,12 +49,7 @@ const MyOrdersPage = () => {
 
         {/* Tab content */}
 
-        {activeTab === FLIGHT && (
-          <div>
-            <MyOrderCard />
-            <MyOrderCard />
-          </div>
-        )}
+        {activeTab === FLIGHT && <FlightHistory />}
       </div>
     </Section>
   );

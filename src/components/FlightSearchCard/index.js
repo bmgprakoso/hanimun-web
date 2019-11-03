@@ -16,7 +16,7 @@ const FlightSearchCard = props => {
 
   const airlineImage = airline => {
     const logo = AIRLINE_LOGO.find(a => a.name === airline);
-    return logo.url;
+    return logo ? logo.url : '';
   };
 
   return (

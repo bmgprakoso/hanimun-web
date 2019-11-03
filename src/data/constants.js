@@ -7,6 +7,7 @@ const ENDPOINT = {
   GET_PAYMENT: 'user/payment',
   GET_FLIGHT_DETAIL: 'flight/detail',
   GET_HOTEL_DETAIL: 'hotel/detail',
+  GET_ORDER_HISTORY: 'order/history',
   POST_ORDER_SUBMIT: 'order/submit',
   POST_REGISTER: 'register',
   POST_PAYMENT_METHOD: 'user/submit-payment',
