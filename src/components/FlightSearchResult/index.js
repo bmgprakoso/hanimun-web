@@ -28,7 +28,7 @@ const FlightSearchResult = props => {
       .then(r => {
         const resultsData = r.data.map(e => {
           return {
-            id: e.flightCode,
+            id: e.flightId,
             airline: e.airline,
             departureTime: e.departureTime,
             departureAirportCode: e.departureAirportCode,

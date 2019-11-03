@@ -17,6 +17,7 @@ const MyFlightOrderDetail = props => {
     departureTime,
     arrivalTime,
   } = props.data;
+
   return (
     <div>
       <div className="has-text-weight-bold">{`Order ID ${orderId}`}</div>
