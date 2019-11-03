@@ -10,7 +10,7 @@ const HotelHistoryCard = props => {
     city,
     duration,
     hotelName,
-    hotelOrderId,
+    orderId,
     price,
     rate,
     roomType,
@@ -27,8 +27,8 @@ const HotelHistoryCard = props => {
 
   const select = () => {
     router.push({
-      pathname: `/myorders/hotel/${hotelOrderId}`,
-      state: { orderId: hotelOrderId, orderType: 'HTL' },
+      pathname: `/myorders/hotel/${orderId}`,
+      state: { orderId, orderType: 'HTL' },
     });
   };
 
@@ -39,7 +39,7 @@ const HotelHistoryCard = props => {
           <div className="card-content">
             <div className="columns is-vcentered">
               <div className="column">
-                <div className="has-text-weight-bold">{`Order ID ${hotelOrderId}`}</div>
+                <div className="has-text-weight-bold">{`Order ID ${orderId}`}</div>
                 <div>{hotelName}</div>
                 <div>{hotelStar()}</div>
                 <div>{`${address}, ${city}`}</div>

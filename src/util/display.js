@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 const formatPrice = a => {
-  return `${a.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} IDR`;
+  return a ? `${a.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} IDR` : '';
 };
 
 // from HH:m:s to HH:m

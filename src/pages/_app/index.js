@@ -41,6 +41,8 @@ function App() {
 
           <Route exact path="/myorders/flight/:id" component={MyOrderDetailPage} />
 
+          <Route exact path="/myorders/hotel/:id" component={MyOrderDetailPage} />
+
           <Route
             component={({ location }) => {
               return (

@@ -8,7 +8,6 @@ const HotelSearchCard = props => {
   const router = useRouter();
 
   const select = () => {
-    console.log(props.id);
     router.push({
       pathname: '/orderdetail',
       state: {

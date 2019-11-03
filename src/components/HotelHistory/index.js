@@ -57,6 +57,7 @@ const HotelHistory = () => {
         duration={r.duration}
         hotelName={r.hotelName}
         hotelOrderId={r.hotelOrderId}
+        orderId={r.orderId}
         price={r.price}
         rate={r.rate}
         roomType={r.roomType}

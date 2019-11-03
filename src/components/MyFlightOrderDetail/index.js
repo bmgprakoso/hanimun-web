@@ -1,32 +1,46 @@
 import React from 'react';
-import Divider from "../Divider";
+import Divider from '../Divider';
+import { formatHourMinute, timeDiff } from '../../util/display';
 
-const MyFlightOrderDetail = () => {
+const MyFlightOrderDetail = props => {
+  const {
+    orderId,
+    titleFirstPassenger,
+    titleSecondPassenger,
+    nameFirstPassenger,
+    nameSecondPassenger,
+    departureCity,
+    departureAirportCode,
+    arrivalCity,
+    arrivalAirportCode,
+    date,
+    departureTime,
+    arrivalTime,
+  } = props.data;
   return (
     <div>
-      <div className="has-text-weight-bold">Order ID 12345</div>
+      <div className="has-text-weight-bold">{`Order ID ${orderId}`}</div>
       <br />
-      <div>Full Name Passenger 1</div>
-      <div>Full Name Passenger 2</div>
+      <div>{`${titleFirstPassenger} ${nameFirstPassenger}`}</div>
+      <div>{`${titleSecondPassenger} ${nameSecondPassenger}`}</div>
       <br />
       <Divider color="light" />
       <br />
-      <div className="has-text-weight-bold">Jakarta (HLP) &#x2192; Surabaya (SUB)</div>
-      <div>United Airlines</div>
+      <div className="has-text-weight-bold">{`${departureCity} (${departureAirportCode}) → ${arrivalCity} (${arrivalAirportCode})`}</div>
       <br />
-      <div className="has-text-weight-bold">Saturday, 19 October 2019</div>
+      <div className="has-text-weight-bold">{date}</div>
       <div className="columns is-vcentered">
         <div className="column">
-          <div>09.10</div>
-          <div>HLP</div>
+          <div>{formatHourMinute(departureTime)}</div>
+          <div>{departureAirportCode}</div>
         </div>
         <div className="column">
-          <div>1h 30m</div>
+          <div>{timeDiff(departureTime, arrivalTime)}</div>
           <div>Direct</div>
         </div>
         <div className="column">
-          <div>10.40</div>
-          <div>SUB</div>
+          <div>{formatHourMinute(arrivalTime)}</div>
+          <div>{arrivalAirportCode}</div>
         </div>
       </div>
     </div>
