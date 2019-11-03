@@ -1,7 +1,6 @@
 import React from 'react';
 import SectionHeader from '../../components/SectionHeader';
 import Section from '../../components/Section';
-import Divider from '../../components/Divider';
 import PriceTable from '../../components/PriceTable';
 import MyFlightOrderDetail from '../../components/MyFlightOrderDetail';
 
