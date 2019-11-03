@@ -13,6 +13,7 @@ import Divider from '../../components/Divider';
 import { useRouter } from '../../util/router';
 import { BACKEND_URL, ENDPOINT, PRODUCT_TYPE } from '../../data/constants';
 import AlternateSection from '../../components/AlternateSection';
+import { formatDateWithStripe, dayDiff } from '../../util/display';
 
 const validEmailRegex = RegExp(
   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
@@ -275,11 +276,59 @@ const OrderDetailPage = props => {
     }
   }
 
-  async function submitAll() {
-    const { date } = props.location.state;
+  const constructOrderBody = () => {
+    const { type, query } = props.location.state;
     const dateNow = new Date();
     const orderDate = `${dateNow.getFullYear()}-${dateNow.getMonth()}-${dateNow.getDate()}`;
     const orderTime = `${dateNow.getHours()}:${dateNow.getMinutes()}:${dateNow.getSeconds()}`;
+
+    const result = {
+      email: auth.user.email,
+      orderDate,
+      orderTime,
+      price: productData.price,
+      orderData: {
+        email,
+        titleFirstPassenger: 'Mr.',
+        nameFirstPassenger: firstCustomerName,
+        titleSecondPassenger: 'Mrs.',
+        nameSecondPassenger: secondCustomerName,
+        phone,
+        identityNumber: firstCustomerIDNumber,
+      },
+    };
+
+    switch (type) {
+      case PRODUCT_TYPE.FLIGHTS: {
+        const { date } = query;
+        return {
+          ...result,
+          flightDetail: {
+            flightId: productData.flightId,
+            numberOfSeat: 2,
+            price: productData.price,
+            date,
+          },
+        };
+      }
+      case PRODUCT_TYPE.HOTELS: {
+        const { startDate, endDate } = query;
+        return {
+          ...result,
+          hotelDetail: {
+            roomId: productData.roomId,
+            checkinDate: formatDateWithStripe(startDate),
+            checkoutDate: formatDateWithStripe(endDate),
+            price: productData.price * dayDiff(startDate, endDate),
+          },
+        };
+      }
+      default:
+        return {};
+    }
+  };
+
+  async function submitAll() {
     const passengers = [];
     const parts = expirationDate.split('-');
     const validDate = `${parts[1]}/${parts[0]}`;
@@ -307,27 +356,6 @@ const OrderDetailPage = props => {
       cvv: cvc,
     };
 
-    const orderBody = {
-      orderDate,
-      orderTime,
-      price: productData.price,
-      flightDetail: {
-        flightId: productData.flightId,
-        numberOfSeat: 2,
-        price: productData.price,
-        date,
-      },
-      orderData: {
-        email,
-        titleFirstPassenger: 'Mr.',
-        nameFirstPassenger: firstCustomerName,
-        titleSecondPassenger: 'Mrs.',
-        nameSecondPassenger: secondCustomerName,
-        phone,
-        identityNumber: firstCustomerIDNumber,
-      },
-    };
-
     const init = {
       method: 'POST',
       headers: {
@@ -338,7 +366,7 @@ const OrderDetailPage = props => {
 
     console.log('registerBody', registerBody);
     console.log('paymentMethodBody', paymentMethodBody);
-    console.log('orderBody', orderBody);
+    console.log('orderBody', constructOrderBody());
 
     try {
       if (auth.user) {
@@ -353,7 +381,7 @@ const OrderDetailPage = props => {
           }),
           fetch(`${BACKEND_URL}${ENDPOINT.POST_ORDER_SUBMIT}`, {
             ...init,
-            body: JSON.stringify(orderBody),
+            body: JSON.stringify(constructOrderBody()),
           }),
         ])
           .then(setIsShowModal(true))
@@ -361,7 +389,7 @@ const OrderDetailPage = props => {
       } else {
         await fetch(`${BACKEND_URL}${ENDPOINT.POST_ORDER_SUBMIT}`, {
           ...init,
-          body: JSON.stringify(orderBody),
+          body: JSON.stringify(constructOrderBody()),
         })
           .then(setIsShowModal(true))
           .catch(setIsShowErrorModal(true));
