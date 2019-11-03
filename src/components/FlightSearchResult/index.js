@@ -19,7 +19,9 @@ const FlightSearchResult = props => {
     setIsError(false);
     setIsEmpty(false);
     const res = await fetch(
-      `${BACKEND_URL}${ENDPOINT.GET_FLIGHT_SEARCH_RESULT}?departureCityCode=${fromID}&arrivalCityCode=${toID}&date=${dateQuery}`,
+      `${BACKEND_URL}${
+        ENDPOINT.GET_FLIGHT_SEARCH_RESULT
+      }?departureCityCode=${fromID}&arrivalCityCode=${toID}&date=${formatDateWithStripe(date)}`,
     );
     res
       .json()

@@ -16,7 +16,7 @@ const formatHourMinute = string => {
 
 // from date to YYYY-MM-DD
 const formatDateWithStripe = date => {
-  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 };
 
 // from date to "day, DD/MM/YYYY"
