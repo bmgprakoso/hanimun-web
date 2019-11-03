@@ -11,6 +11,18 @@ const SearchResultPage = props => {
         return <FlightSearchResult query={query} />;
       case PRODUCT_TYPE.HOTELS:
         return <HotelSearchResult query={query} />;
+      case PRODUCT_TYPE.PACKAGES:
+        return (
+          <div
+            style={{
+              padding: '50px',
+              width: '100%',
+              textAlign: 'center',
+            }}
+          >
+            The page is under construction
+          </div>
+        );
       default:
         return <FlightSearchResult query={query} />;
     }

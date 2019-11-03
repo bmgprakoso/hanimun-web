@@ -5,6 +5,7 @@ import SectionHeader from '../SectionHeader';
 import './styles.scss';
 import HotelSearchBar from '../HotelSearchBar';
 import { PRODUCT_TYPE } from '../../data/constants';
+import PackageSearchBar from '../PackageSearchBar';
 
 const HeroSection = props => {
   const searchBar = () => {
@@ -13,7 +14,7 @@ const HeroSection = props => {
       case PRODUCT_TYPE.HOTELS:
         return <HotelSearchBar isInverted />;
       case PRODUCT_TYPE.PACKAGES:
-        return <HotelSearchBar isInverted />;
+        return <PackageSearchBar isInverted />;
       default:
         return <FlightSearchBar isInverted />;
     }
