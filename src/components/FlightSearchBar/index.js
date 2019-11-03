@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import './styles.scss';
 import { useRouter } from '../../util/router';
-import { BACKEND_URL, ENDPOINT } from '../../data/constants';
+import { BACKEND_URL, ENDPOINT, PRODUCT_TYPE } from '../../data/constants';
 
 const FROM = 'FROM';
 const TO = 'TO';
@@ -91,7 +91,7 @@ const FlightSearchBar = props => {
     }
     router.push({
       pathname: '/searchresult',
-      state: { fromID, toID, date },
+      state: { type: PRODUCT_TYPE.FLIGHTS, query: { fromID, toID, date } },
     });
   };
 

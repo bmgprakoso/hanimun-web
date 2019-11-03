@@ -1,22 +1,24 @@
 import React from 'react';
 import { useRouter } from '../../util/router';
-import { formatHourMinute, formatPrice, timeDiff } from '../../util/display';
-import { AIRLINE_LOGO, PRODUCT_TYPE } from '../../data/constants';
+import { formatDateComplete, formatPrice, dayDiff } from '../../util/display';
+import { PRODUCT_TYPE } from '../../data/constants';
 import './styles.scss';
 
-const FlightSearchCard = props => {
+const HotelSearchCard = props => {
   const router = useRouter();
 
   const select = () => {
     router.push({
       pathname: '/orderdetail',
-      state: { type: PRODUCT_TYPE.FLIGHTS, query: { id: props.flightId, date: props.date } },
+      state: { type: PRODUCT_TYPE.HOTELS, query: { id: props.id } },
     });
   };
 
-  const airlineImage = airline => {
-    const logo = AIRLINE_LOGO.find(a => a.name === airline);
-    return logo.url;
+  const hotelStar = count => {
+    const stars = [...Array(parseInt(count, 10))].map(() => (
+      <i className="fas fa-star has-text-warning" />
+    ));
+    return <div>{stars}</div>;
   };
 
   return (
@@ -27,22 +29,24 @@ const FlightSearchCard = props => {
             <div className="columns is-vcentered">
               <div className="column is-narrow">
                 <figure className="image container is-96x96">
-                  <img src={airlineImage(props.airline)} alt="Placeholder" />
+                  <img src="https://placeholder.pics/svg/300" alt="Placeholder" />
                 </figure>
               </div>
               <div className="column">
-                <div className="has-text-weight-bold">
-                  {`${formatHourMinute(props.departureTime)} — ${formatHourMinute(
-                    props.arrivalTime,
-                  )}`}
-                </div>
-                <div>{props.airline}</div>
+                <div className="has-text-weight-bold">{props.hotelName}</div>
+                <div>{hotelStar(props.rate)}</div>
+                <br />
+                <div>{props.address}</div>
               </div>
               <div className="column">
                 <div className="has-text-weight-bold">
-                  {timeDiff(props.departureTime, props.arrivalTime)}
+                  {`${dayDiff(props.startDate, props.endDate)} day(s)`}
                 </div>
-                <div>{`${props.departureAirportCode} — ${props.arrivalAirportCode}`}</div>
+                <div>
+                  {`${formatDateComplete(props.startDate)} — ${formatDateComplete(props.endDate)}`}
+                </div>
+                <br />
+                <div>{`Room Type: ${props.roomType}`}</div>
               </div>
             </div>
           </div>
@@ -51,8 +55,10 @@ const FlightSearchCard = props => {
           <div className="card-content has-background-light">
             <div className="columns is-vcentered">
               <div className="column is-narrow">
-                <div className="is-size-7">{`${formatPrice(props.price)}/pax`}</div>
-                <div className="is-size-4 has-text-weight-bold">{formatPrice(props.price * 2)}</div>
+                <div className="is-size-7">{`${formatPrice(props.price)}/day`}</div>
+                <div className="is-size-4 has-text-weight-bold">
+                  {formatPrice(props.price * parseInt(dayDiff(props.startDate, props.endDate), 10))}
+                </div>
                 <button
                   type="submit"
                   className="button is-success FlightSearchCard__select-button"
@@ -69,4 +75,4 @@ const FlightSearchCard = props => {
   );
 };
 
-export default FlightSearchCard;
+export default HotelSearchCard;

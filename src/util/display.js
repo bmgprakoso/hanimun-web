@@ -14,6 +14,17 @@ const formatHourMinute = string => {
     : '';
 };
 
+// from date to YYYY-MM-DD
+const formatDateWithStripe = date => {
+  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+};
+
+// from date to "day, DD/MM/YYYY"
+const formatDateComplete = date => {
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  return `${days[date.getDay()]}, ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+};
+
 const timeDiff = (before, after) => {
   const beforeTime = moment(before, 'HH:m:s');
   const afterTime = moment(after, 'HH:m:s');
@@ -23,4 +34,17 @@ const timeDiff = (before, after) => {
   return `${hours} hour(s)${minutes > 0 ? ` ${minutes} minute(s)` : ''}`;
 };
 
-export { formatHourMinute, formatPrice, timeDiff };
+const dayDiff = (before, after) => {
+  const beforeTime = moment(before, 'HH:m:s');
+  const afterTime = moment(after, 'HH:m:s');
+  return `${afterTime.diff(beforeTime, 'days')}`;
+};
+
+export {
+  formatHourMinute,
+  formatDateWithStripe,
+  formatDateComplete,
+  formatPrice,
+  timeDiff,
+  dayDiff,
+};

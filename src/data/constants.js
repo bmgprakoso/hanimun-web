@@ -2,6 +2,7 @@ const BACKEND_URL = 'http://irmalaily.pythonanywhere.com/';
 const ENDPOINT = {
   GET_AIRPORT: 'airport',
   GET_FLIGHT_SEARCH_RESULT: 'flight/list',
+  GET_HOTEL_SEARCH_RESULT: 'hotel/list',
   GET_PASSENGER: 'passenger',
   GET_PAYMENT: 'user/payment',
   GET_FLIGHT_DETAIL: 'flight/detail',

@@ -37,15 +37,16 @@ const HotelSearchBar = props => {
   }
 
   useEffect(() => {
+    setCityCode(props.cityCode || '');
     setStartDate(props.startDate || null);
     setEndDate(props.endDate || null);
     fetchData();
   }, []);
 
   const locationSelection = () =>
-    locations.map(location => (
-      <option key={`${location.cityCode}`} value={location.cityCode}>
-        {`${location.cityName}`}
+    locations.map(l => (
+      <option key={`${l.cityCode}`} value={l.cityCode}>
+        {`${l.cityName}`}
       </option>
     ));
 
@@ -83,7 +84,7 @@ const HotelSearchBar = props => {
     }
     router.push({
       pathname: '/searchresult',
-      state: { type: PRODUCT_TYPE.HOTEL, query: { startDate, endDate } },
+      state: { type: PRODUCT_TYPE.HOTELS, query: { cityCode, startDate, endDate } },
     });
   };
 
