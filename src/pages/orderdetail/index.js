@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-useless-escape */
 /* eslint-disable max-len */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -21,33 +23,34 @@ const validEmailRegex = RegExp(
 const validNumber = RegExp(/^\d+$/);
 
 const Field = props => {
+  const { label, addon, name, value, placeholder, type, help, error, disabled } = props;
   return (
     <div className="field is-horizontal">
       <div className="field-label is-normal">
-        {props.label && <label className="label">{props.label}</label>}
+        {label && <label className="label">{label}</label>}
       </div>
       <div className="field-body">
         <div className="field is-expanded">
-          <div className={`field${props.addon ? ' has-addons' : ''}`}>
-            {props.addon && (
+          <div className={`field${addon ? ' has-addons' : ''}`}>
+            {addon && (
               <p className="control">
-                <a className="button is-static">{props.addon}</a>
+                <a className="button is-static">{addon}</a>
               </p>
             )}
             <p className="control is-expanded">
               <input
-                name={props.name}
-                value={props.value}
+                name={name}
+                value={value}
                 className="input"
-                type="text"
-                placeholder={props.placeholder}
+                type={type || 'text'}
+                placeholder={placeholder}
+                disabled={disabled}
                 onChange={e => props.onChange(e.target.value)}
-                type={props.type}
               />
             </p>
           </div>
-          {props.help && <p className="help">{props.help}</p>}
-          {props.error && <p className="help is-danger">{props.error.message}</p>}
+          {help && <p className="help">{help}</p>}
+          {error && <p className="help is-danger">{error.message}</p>}
         </div>
       </div>
     </div>
@@ -151,7 +154,7 @@ const OrderDetailPage = props => {
     });
   }
 
-  if (isEmpty(cvc)) {
+  if (!cvc) {
     errors.push({
       field: 'cvc',
       message: "This field can't be empty",
@@ -209,7 +212,6 @@ const OrderDetailPage = props => {
 
   const getProductUrl = () => {
     const { type, query } = props.location.state;
-    console.log(query);
     switch (type) {
       case PRODUCT_TYPE.FLIGHTS: {
         const { id, date } = query;
@@ -226,15 +228,14 @@ const OrderDetailPage = props => {
 
   async function fetchAll() {
     try {
-      console.log(getProductUrl());
       await Promise.all([
         fetch(getProductUrl()).then(response => response.json()),
-        fetch(`${BACKEND_URL}${ENDPOINT.GET_PASSENGER}?email=${auth.user}`).then(response =>
-          response.json(),
-        ),
-        fetch(`${BACKEND_URL}${ENDPOINT.GET_PAYMENT}?email=${auth.user}`).then(response =>
-          response.json(),
-        ),
+        fetch(
+          `${BACKEND_URL}${ENDPOINT.GET_PASSENGER}?email=${auth.user ? auth.user.email : ''}`,
+        ).then(response => response.json()),
+        fetch(
+          `${BACKEND_URL}${ENDPOINT.GET_PAYMENT}?email=${auth.user ? auth.user.email : ''}`,
+        ).then(response => response.json()),
       ])
         .then(r => {
           const [orderRes, passengerRes, paymentRes] = r;
@@ -246,23 +247,24 @@ const OrderDetailPage = props => {
           }
 
           // passenger
-          const { passengerData } = passengerRes;
-          if (passengerData) {
-            const firstCustomer = passengerData[0];
-            const secondCustomer = passengerData[1];
+          if (passengerRes.data && passengerRes.data.length !== 0) {
+            const firstCustomer = passengerRes.data[0];
+            const secondCustomer = passengerRes.data[1];
             setFirstCustomerName(firstCustomer.name);
             setFirstCustomerIDNumber(firstCustomer.identityNumber);
             setSecondCustomerName(secondCustomer.name);
             setSecondCustomerIDNumber(secondCustomer.identityNumber);
+            setEmail(firstCustomer.email);
           }
 
           // payment
-          const { paymentData } = paymentRes;
-          if (paymentData) {
-            setCCNumber(paymentData.cardNumber);
-            setCardHolderName(paymentData.cardHolderName);
-            setExpirationDate(paymentData.validDate);
-            setCVC(paymentData.cvv);
+          if (paymentRes.data && paymentRes.data.length !== 0) {
+            const dateParts = paymentRes.data.validDate.split('/');
+            const formattedDateResp = `${dateParts[1]}-${dateParts[0]}`;
+            setCCNumber(paymentRes.data.cardNumber);
+            setCardHolderName(paymentRes.data.cardHolderName);
+            setExpirationDate(formattedDateResp);
+            setCVC(paymentRes.data.cvv);
           }
           setIsLoading(false);
         })
@@ -384,15 +386,23 @@ const OrderDetailPage = props => {
             body: JSON.stringify(constructOrderBody()),
           }),
         ])
-          .then(setIsShowModal(true))
-          .catch(setIsShowErrorModal(true));
+          .then(() => {
+            setIsShowModal(true);
+          })
+          .catch(() => {
+            setIsShowErrorModal(true);
+          });
       } else {
         await fetch(`${BACKEND_URL}${ENDPOINT.POST_ORDER_SUBMIT}`, {
           ...init,
           body: JSON.stringify(constructOrderBody()),
         })
-          .then(setIsShowModal(true))
-          .catch(setIsShowErrorModal(true));
+          .then(() => {
+            setIsShowModal(true);
+          })
+          .catch(() => {
+            setIsShowErrorModal(true);
+          });
       }
     } catch (error) {
       console.log(error);
@@ -401,7 +411,7 @@ const OrderDetailPage = props => {
 
   useEffect(() => {
     fetchAll();
-  }, []);
+  }, [auth.user]);
 
   const checkout = () => {
     if (errors.length) {
@@ -571,7 +581,7 @@ const OrderDetailPage = props => {
         </div>
         <div className="columns is-mobile is-centered">
           <div className="column is-narrow">
-            <button type="submit" className="button is-primary is-centered" onClick={checkout}>
+            <button type="submit" className="button is-success is-centered" onClick={checkout}>
               Checkout
             </button>
           </div>
