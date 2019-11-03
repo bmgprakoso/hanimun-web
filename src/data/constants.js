@@ -11,9 +11,9 @@ const ENDPOINT = {
 };
 
 const PRODUCT_TYPE = {
-  FLIGHT: 'FLIGHT',
-  HOTEL: 'HOTEL',
-  PACKAGE: 'PACKAGE',
+  FLIGHTS: 'flights',
+  HOTELS: 'hotels',
+  PACKAGES: 'packages',
 };
 
 const AIRLINE_LOGO = [

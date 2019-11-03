@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import NavbarContainer from "../NavbarContainer";
-import { Link } from "../../util/router.js";
-import { useAuth } from "../../util/auth.js";
+import NavbarContainer from '../NavbarContainer';
+import { Link } from '../../util/router.js';
+import { useAuth } from '../../util/auth.js';
 import './styles.scss';
 
 function Navbar(props) {
@@ -18,7 +18,7 @@ function Navbar(props) {
             </Link>
           </div>
           <div
-            className={`navbar-burger burger${  menuOpen ? ' is-active' : ''}`}
+            className={`navbar-burger burger${menuOpen ? ' is-active' : ''}`}
             onClick={() => setMenuOpen(!menuOpen)}
           >
             <span />
@@ -26,8 +26,17 @@ function Navbar(props) {
             <span />
           </div>
         </div>
-        <div className={`navbar-menu${  menuOpen ? ' is-active' : ''}`}>
+        <div className={`navbar-menu${menuOpen ? ' is-active' : ''}`}>
           <div className="navbar-end">
+            <Link className="navbar-item" to="/">
+              Flights
+            </Link>
+            <Link className="navbar-item" to="/hotels">
+              Hotels
+            </Link>
+            <Link className="navbar-item" to="/packages">
+              Packages
+            </Link>
             {auth.user && (
               <div className="navbar-item has-dropdown is-hoverable">
                 <Link className="navbar-link" to="/">

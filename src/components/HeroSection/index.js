@@ -4,17 +4,29 @@ import Section from '../Section';
 import SectionHeader from '../SectionHeader';
 import './styles.scss';
 import HotelSearchBar from '../HotelSearchBar';
+import { PRODUCT_TYPE } from '../../data/constants';
 
-function HeroSection(props) {
+const HeroSection = props => {
+  const searchBar = () => {
+    const { productType } = props;
+    switch (productType) {
+      case PRODUCT_TYPE.HOTELS:
+        return <HotelSearchBar isInverted />;
+      case PRODUCT_TYPE.PACKAGES:
+        return <HotelSearchBar isInverted />;
+      default:
+        return <FlightSearchBar isInverted />;
+    }
+  };
+
   return (
     <Section color={props.color} size={props.size}>
       <div className="container">
         <SectionHeader title={props.title} subtitle={props.subtitle} centered size={1} />
-        <HotelSearchBar isInverted />
-        {/* <FlightSearchBar isInverted /> */}
+        {searchBar()}
       </div>
     </Section>
   );
-}
+};
 
 export default HeroSection;
