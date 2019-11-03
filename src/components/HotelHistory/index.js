@@ -28,6 +28,7 @@ const HotelHistory = () => {
             duration: e.duration,
             hotelName: e.hotelName,
             hotelOrderId: e.hotelOrderId,
+            orderId: e.orderId,
             price: e.price,
             rate: e.rate,
             roomType: e.roomType,

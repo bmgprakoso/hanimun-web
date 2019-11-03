@@ -5,6 +5,7 @@ import PriceTable from '../../components/PriceTable';
 import MyFlightOrderDetail from '../../components/MyFlightOrderDetail';
 import { BACKEND_URL, ENDPOINT, PRODUCT_TYPE } from '../../data/constants';
 import AlternateSection from '../../components/AlternateSection';
+import MyHotelOrderDetail from '../../components/MyHotelOrderDetail';
 
 const MyOrderDetailPage = props => {
   const [productData, setProductData] = useState({});
@@ -13,19 +14,8 @@ const MyOrderDetailPage = props => {
 
   async function fetchData() {
     const { orderId, orderType } = props.location.state;
-    let type = '';
-    switch (orderType) {
-      case PRODUCT_TYPE.FLIGHTS:
-        type = 'FLG';
-        break;
-      case PRODUCT_TYPE.HOTELS:
-        type = 'HTL';
-        break;
-      default:
-        break;
-    }
     const res = await fetch(
-      `${BACKEND_URL}${ENDPOINT.GET_ORDER_DETAIL}?orderId=${orderId}&orderType=${type}`,
+      `${BACKEND_URL}${ENDPOINT.GET_ORDER_DETAIL}?orderId=${orderId}&orderType=${orderType}`,
     );
     res
       .json()
@@ -53,12 +43,11 @@ const MyOrderDetailPage = props => {
 
   const switchProductDetail = () => {
     const { orderType } = props.location.state;
-
     switch (orderType) {
-      case PRODUCT_TYPE.FLIGHTS:
+      case 'FLG':
         return <MyFlightOrderDetail data={productData} />;
-      case PRODUCT_TYPE.Hotel:
-        return <MyFlightOrderDetail data={productData} />;
+      case 'HTL':
+        return <MyHotelOrderDetail data={productData} />;
       default:
         return <div />;
     }
@@ -66,11 +55,10 @@ const MyOrderDetailPage = props => {
 
   const switchPriceTable = () => {
     const { orderType } = props.location.state;
-
     switch (orderType) {
-      case PRODUCT_TYPE.FLIGHTS:
+      case 'FLG':
         return <PriceTable price={productData.price} label="Adult (x2)" />;
-      case PRODUCT_TYPE.HOTELS:
+      case 'HTL':
         return <PriceTable price={productData.price} label={`${productData.duration} Day(s)`} />;
       default:
         return <div />;
