@@ -5,12 +5,13 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../util/auth';
 import FlightOrderDetail from '../../components/FlightOrderDetail';
+import HotelOrderDetail from '../../components/HotelOrderDetail';
 import Section from '../../components/Section';
 import SectionHeader from '../../components/SectionHeader';
 import './styles.scss';
 import Divider from '../../components/Divider';
 import { useRouter } from '../../util/router';
-import { BACKEND_URL, ENDPOINT } from '../../data/constants';
+import { BACKEND_URL, ENDPOINT, PRODUCT_TYPE } from '../../data/constants';
 import AlternateSection from '../../components/AlternateSection';
 
 const validEmailRegex = RegExp(
@@ -205,14 +206,28 @@ const OrderDetailPage = props => {
     });
   }
 
-  async function fetchAll() {
-    const { id, date } = props.location.state;
+  const getProductUrl = () => {
+    const { type, query } = props.location.state;
+    console.log(query);
+    switch (type) {
+      case PRODUCT_TYPE.FLIGHTS: {
+        const { id, date } = query;
+        return `${BACKEND_URL}${ENDPOINT.GET_FLIGHT_DETAIL}?flightId=${`862`}&date=${date}`;
+      }
+      case PRODUCT_TYPE.HOTELS: {
+        const { roomId } = query;
+        return `${BACKEND_URL}${ENDPOINT.GET_HOTEL_DETAIL}?roomId=${roomId}`;
+      }
+      default:
+        return '';
+    }
+  };
 
+  async function fetchAll() {
     try {
+      console.log(getProductUrl());
       await Promise.all([
-        fetch(`${BACKEND_URL}${ENDPOINT.GET_FLIGHT_DETAIL}?flightId=862&date=${date}`).then(
-          response => response.json(),
-        ),
+        fetch(getProductUrl()).then(response => response.json()),
         fetch(`${BACKEND_URL}${ENDPOINT.GET_PASSENGER}?email=${auth.user}`).then(response =>
           response.json(),
         ),
@@ -250,7 +265,8 @@ const OrderDetailPage = props => {
           }
           setIsLoading(false);
         })
-        .catch(() => {
+        .catch(e => {
+          console.log(e);
           setIsError(true);
           setIsLoading(false);
         });
@@ -379,6 +395,20 @@ const OrderDetailPage = props => {
     setIsShowErrorModal(false);
   };
 
+  const productOrderDetail = () => {
+    const { type, query } = props.location.state;
+    switch (type) {
+      case PRODUCT_TYPE.FLIGHTS:
+        return <FlightOrderDetail data={productData} />;
+      case PRODUCT_TYPE.HOTELS: {
+        const { startDate, endDate } = query;
+        return <HotelOrderDetail data={productData} startDate={startDate} endDate={endDate} />;
+      }
+      default:
+        return <div />;
+    }
+  };
+
   if (isLoading) {
     return (
       <Section>
@@ -405,9 +435,7 @@ const OrderDetailPage = props => {
         <SectionHeader title="Order Detail" size={2} />
         <div className="tile is-ancestor">
           <div className="tile is-parent">
-            <div className="tile is-child box">
-              <FlightOrderDetail data={productData} />
-            </div>
+            <div className="tile is-child box">{productOrderDetail()}</div>
           </div>
           <div className="tile is-8 is-vertical is-parent">
             <div className="tile is-child box">

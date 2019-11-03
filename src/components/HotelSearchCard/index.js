@@ -8,9 +8,13 @@ const HotelSearchCard = props => {
   const router = useRouter();
 
   const select = () => {
+    console.log(props.id);
     router.push({
       pathname: '/orderdetail',
-      state: { type: PRODUCT_TYPE.HOTELS, query: { id: props.id } },
+      state: {
+        type: PRODUCT_TYPE.HOTELS,
+        query: { roomId: props.roomId, startDate: props.startDate, endDate: props.endDate },
+      },
     });
   };
 

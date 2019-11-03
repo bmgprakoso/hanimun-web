@@ -23,7 +23,8 @@ const HotelSearchResult = props => {
       .then(r => {
         const resultsData = r.data.map(e => {
           return {
-            id: e.roomId,
+            id: `${e.hotelId}-${e.roomId}`,
+            roomId: e.roomId,
             address: e.address,
             city: e.city,
             hotelName: e.hotelName,
@@ -51,6 +52,7 @@ const HotelSearchResult = props => {
       return (
         <HotelSearchCard
           key={r.id}
+          roomId={r.roomId}
           address={r.address}
           city={r.city}
           hotelName={r.hotelName}
