@@ -70,7 +70,7 @@ const HotelSearchBar = props => {
       return false;
     }
 
-    if (startDate === endDate) {
+    if (startDate.getTime() === endDate.getTime()) {
       setErrorMsg('Start and end date cannot be same.');
       return false;
     }

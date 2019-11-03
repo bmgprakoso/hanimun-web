@@ -5,6 +5,15 @@ import { AIRLINE_LOGO, PRODUCT_TYPE } from '../../data/constants';
 import './styles.scss';
 
 const FlightSearchCard = props => {
+  const {
+    airline,
+    departureTime,
+    arrivalTime,
+    departureAirportCode,
+    arrivalAirportCode,
+    price,
+  } = props;
+
   const router = useRouter();
 
   const select = () => {
@@ -14,7 +23,7 @@ const FlightSearchCard = props => {
     });
   };
 
-  const airlineImage = airline => {
+  const airlineImage = () => {
     const logo = AIRLINE_LOGO.find(a => a.name === airline);
     return logo ? logo.url : '';
   };
@@ -27,22 +36,18 @@ const FlightSearchCard = props => {
             <div className="columns is-vcentered">
               <div className="column is-narrow">
                 <figure className="image container is-96x96">
-                  <img src={airlineImage(props.airline)} alt="Placeholder" />
+                  <img src={airlineImage()} alt="Placeholder" />
                 </figure>
               </div>
               <div className="column">
                 <div className="has-text-weight-bold">
-                  {`${formatHourMinute(props.departureTime)} — ${formatHourMinute(
-                    props.arrivalTime,
-                  )}`}
+                  {`${formatHourMinute(departureTime)} — ${formatHourMinute(arrivalTime)}`}
                 </div>
-                <div>{props.airline}</div>
+                <div>{airline}</div>
               </div>
               <div className="column">
-                <div className="has-text-weight-bold">
-                  {timeDiff(props.departureTime, props.arrivalTime)}
-                </div>
-                <div>{`${props.departureAirportCode} — ${props.arrivalAirportCode}`}</div>
+                <div className="has-text-weight-bold">{timeDiff(departureTime, arrivalTime)}</div>
+                <div>{`${departureAirportCode} — ${arrivalAirportCode}`}</div>
               </div>
             </div>
           </div>
@@ -51,8 +56,8 @@ const FlightSearchCard = props => {
           <div className="card-content has-background-light">
             <div className="columns is-vcentered">
               <div className="column is-narrow">
-                <div className="is-size-7">{`${formatPrice(props.price)}/pax`}</div>
-                <div className="is-size-4 has-text-weight-bold">{formatPrice(props.price * 2)}</div>
+                <div className="is-size-7">{`${formatPrice(price / 2)}/pax`}</div>
+                <div className="is-size-4 has-text-weight-bold">{formatPrice(price)}</div>
                 <button
                   type="submit"
                   className="button is-success FlightSearchCard__select-button"
