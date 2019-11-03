@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../util/auth';
 import { BACKEND_URL, ENDPOINT } from '../../data/constants';
 import AlternateSection from '../AlternateSection';
-import FlightHistoryCard from '../FlightHistoryCard';
+import HotelHistoryCard from '../HotelHistoryCard';
 
-const FlightHistory = () => {
+const HotelHistory = () => {
   const auth = useAuth();
   const [results, setResults] = useState([]);
   const [isError, setIsError] = useState(false);
@@ -14,21 +14,23 @@ const FlightHistory = () => {
     setIsError(false);
     setIsEmpty(false);
     const res = await fetch(
-      `${BACKEND_URL}${ENDPOINT.GET_ORDER_HISTORY}?email=${auth.user.email}&orderType=FLG`,
+      `${BACKEND_URL}${ENDPOINT.GET_ORDER_HISTORY}?email=${auth.user.email}&orderType=HTL`,
     );
     res
       .json()
       .then(r => {
         const resultsData = r.data.map(e => {
           return {
-            arrivalAirportCode: e.arrivalAirportCode,
-            arrivalCity: e.arrivalCity,
-            date: e.date,
-            departureAirportCode: e.departureAirportCode,
-            departureCity: e.departureCity,
-            flightOrderId: e.flightOrderId,
-            orderId: e.orderId,
+            address: e.address,
+            checkinDate: e.checkinDate,
+            checkoutDate: e.checkoutDate,
+            city: e.city,
+            duration: e.duration,
+            hotelName: e.hotelName,
+            hotelOrderId: e.hotelOrderId,
             price: e.price,
+            rate: e.rate,
+            roomType: e.roomType,
           };
         });
         setResults(resultsData);
@@ -47,16 +49,17 @@ const FlightHistory = () => {
 
   const generateResults = () => {
     return results.map(r => (
-      <FlightHistoryCard
-        key={r.orderId}
-        arrivalAirportCode={r.arrivalAirportCode}
-        arrivalCity={r.arrivalCity}
-        date={r.date}
-        departureAirportCode={r.departureAirportCode}
-        departureCity={r.departureCity}
-        flightOrderId={r.flightOrderId}
-        orderId={r.orderId}
+      <HotelHistoryCard
+        address={r.address}
+        checkinDate={r.checkinDate}
+        checkoutDate={r.checkoutDate}
+        city={r.city}
+        duration={r.duration}
+        hotelName={r.hotelName}
+        hotelOrderId={r.hotelOrderId}
         price={r.price}
+        rate={r.rate}
+        roomType={r.roomType}
       />
     ));
   };
@@ -72,4 +75,4 @@ const FlightHistory = () => {
   return <div>{generateResults()}</div>;
 };
 
-export default FlightHistory;
+export default HotelHistory;

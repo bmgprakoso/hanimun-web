@@ -50,7 +50,7 @@ const HotelSearchCard = props => {
                   {`${formatDateComplete(props.startDate)} — ${formatDateComplete(props.endDate)}`}
                 </div>
                 <br />
-                <div>{`Room Type: ${props.roomType}`}</div>
+                <div>{`1 Room (${props.roomType} type)`}</div>
               </div>
             </div>
           </div>

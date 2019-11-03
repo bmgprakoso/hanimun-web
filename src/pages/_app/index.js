@@ -39,7 +39,7 @@ function App() {
 
           <Route exact path="/myorders" component={MyOrdersPage} />
 
-          <Route exact path="/myorders/:id" component={MyOrderDetailPage} />
+          <Route exact path="/myorders/flight/:id" component={MyOrderDetailPage} />
 
           <Route
             component={({ location }) => {
