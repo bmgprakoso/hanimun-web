@@ -2,6 +2,7 @@ import React from 'react';
 import { PRODUCT_TYPE } from '../../data/constants';
 import FlightSearchResult from '../../components/FlightSearchResult';
 import HotelSearchResult from '../../components/HotelSearchResult';
+import PackageSearchResult from '../../components/PackageSearchResult';
 
 const SearchResultPage = props => {
   const searchResult = () => {
@@ -12,17 +13,7 @@ const SearchResultPage = props => {
       case PRODUCT_TYPE.HOTELS:
         return <HotelSearchResult query={query} />;
       case PRODUCT_TYPE.PACKAGES:
-        return (
-          <div
-            style={{
-              padding: '50px',
-              width: '100%',
-              textAlign: 'center',
-            }}
-          >
-            The page is under construction
-          </div>
-        );
+        return <PackageSearchResult query={query} />;
       default:
         return <FlightSearchResult query={query} />;
     }
