@@ -9,7 +9,7 @@ import './styles.scss';
 
 const PackageSearchResult = props => {
   const { query } = props;
-  const { cityCode, startDate } = query;
+  const { fromCityCode, toCityCode, date } = query;
 
   const [results, setResults] = useState([]);
   const [isError, setIsError] = useState(false);
@@ -19,7 +19,7 @@ const PackageSearchResult = props => {
     setIsError(false);
     setIsEmpty(false);
     const res = await fetch(
-      `${BACKEND_URL}${ENDPOINT.GET_PACKAGE_SEARCH_RESULT}?cityCode=${cityCode}`,
+      `${BACKEND_URL}${ENDPOINT.GET_PACKAGE_SEARCH_RESULT}?toCityCode=${toCityCode}`,
     );
     res
       .json()
@@ -73,16 +73,16 @@ const PackageSearchResult = props => {
       return <AlternateSection empty />;
     }
 
-    return generatePackageSearchResults();
+    return <div className="columns is-multiline is-mobile">{generatePackageSearchResults()}</div>;
   };
 
   return (
     <Section>
       <div className="container">
         <SectionHeader title="Search Result" size={2} />
-        <PackageSearchBar cityCode={cityCode} startDate={startDate} />
+        <PackageSearchBar fromCityCode={fromCityCode} toCityCode={toCityCode} date={date} />
         <br />
-        <div className="columns is-multiline is-mobile">{showResult()}</div>
+        {showResult()}
       </div>
     </Section>
   );

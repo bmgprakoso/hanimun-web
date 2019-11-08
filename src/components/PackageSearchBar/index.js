@@ -6,12 +6,14 @@ import { useRouter } from '../../util/router';
 import { BACKEND_URL, ENDPOINT, PRODUCT_TYPE } from '../../data/constants';
 
 const PackageSearchBar = props => {
+  const { isInverted } = props;
   const router = useRouter();
   const today = new Date();
 
   const [locations, setLocations] = useState([]);
-  const [cityCode, setCityCode] = useState('');
-  const [startDate, setStartDate] = useState(null);
+  const [fromCityCode, setFromCityCode] = useState('');
+  const [toCityCode, setToCityCode] = useState('');
+  const [date, setDate] = useState(today);
   const [errorMsg, setErrorMsg] = useState('');
 
   async function fetchData() {
@@ -34,8 +36,9 @@ const PackageSearchBar = props => {
   }
 
   useEffect(() => {
-    setCityCode(props.cityCode || '');
-    setStartDate(props.startDate || null);
+    setFromCityCode(props.fromCityCode || '');
+    setToCityCode(props.toCityCode || '');
+    setDate(props.date || today);
     fetchData();
   }, []);
 
@@ -51,12 +54,22 @@ const PackageSearchBar = props => {
   };
 
   const validateForm = () => {
-    if (!cityCode) {
-      setErrorMsg('Please enter "Where" location.');
+    if (!fromCityCode) {
+      setErrorMsg('Please enter "From" location.');
       return false;
     }
 
-    if (!startDate) {
+    if (!toCityCode) {
+      setErrorMsg('Please enter "To" location.');
+      return false;
+    }
+
+    if (fromCityCode === toCityCode) {
+      setErrorMsg('Please enter unique "From" and "To" location.');
+      return false;
+    }
+
+    if (!date) {
       setErrorMsg('Please input "Start Date".');
       return false;
     }
@@ -70,7 +83,7 @@ const PackageSearchBar = props => {
     }
     router.push({
       pathname: '/searchresult',
-      state: { type: PRODUCT_TYPE.PACKAGES, query: { cityCode, startDate } },
+      state: { type: PRODUCT_TYPE.PACKAGES, query: { fromCityCode, toCityCode, date } },
     });
   };
 
@@ -80,8 +93,21 @@ const PackageSearchBar = props => {
         <div className="column">
           <div className="control is-expanded has-icons-left">
             <div className="select is-fullwidth">
-              <select value={cityCode} onChange={e => setCityCode(e.target.value)}>
-                <option value="">Where?</option>
+              <select value={fromCityCode} onChange={e => setFromCityCode(e.target.value)}>
+                <option value="">From</option>
+                {locationSelection()}
+              </select>
+            </div>
+            <div className="icon is-small is-left">
+              <i className="fas fa-search-location" />
+            </div>
+          </div>
+        </div>
+        <div className="column">
+          <div className="control is-expanded has-icons-left">
+            <div className="select is-fullwidth">
+              <select value={toCityCode} onChange={e => setToCityCode(e.target.value)}>
+                <option value="">To</option>
                 {locationSelection()}
               </select>
             </div>
@@ -96,9 +122,8 @@ const PackageSearchBar = props => {
               className="input"
               minDate={today}
               showPopperArrow={false}
-              selected={startDate}
-              onChange={d => setStartDate(d)}
-              selectsStart
+              selected={date}
+              onChange={d => setDate(d)}
               placeholderText="Start Date"
             />
             <div className="icon is-small is-left">
@@ -118,7 +143,7 @@ const PackageSearchBar = props => {
           <button
             type="submit"
             onClick={search}
-            className={`button is-primary is-rounded${props.isInverted ? ' is-inverted' : ''}`}
+            className={`button is-primary is-rounded${isInverted ? ' is-inverted' : ''}`}
           >
             Search
           </button>

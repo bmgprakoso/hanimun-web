@@ -10,12 +10,14 @@ const FROM = 'FROM';
 const TO = 'TO';
 
 const FlightSearchBar = props => {
+  const { isInverted } = props;
   const router = useRouter();
+  const today = new Date();
 
   const [airports, setAirports] = useState([]);
   const [fromID, setFromID] = useState('');
   const [toID, setToID] = useState('');
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(today);
   const [errorMsg, setErrorMsg] = useState('');
 
   async function fetchData() {
@@ -42,7 +44,7 @@ const FlightSearchBar = props => {
   useEffect(() => {
     setFromID(props.fromID || '');
     setToID(props.toID || '');
-    setDate(props.date || new Date());
+    setDate(props.date || today);
     fetchData();
   }, []);
 
@@ -78,7 +80,12 @@ const FlightSearchBar = props => {
     }
 
     if (fromID === toID) {
-      setErrorMsg('Please enter unique "From" and "To" airports..');
+      setErrorMsg('Please enter unique "From" and "To" airports.');
+      return false;
+    }
+
+    if (!date) {
+      setErrorMsg('Please input "Date".');
       return false;
     }
 
@@ -102,7 +109,7 @@ const FlightSearchBar = props => {
           <div className="control is-expanded has-icons-left">
             <div className="select is-fullwidth">
               <select value={fromID} onChange={e => handleChange(e, FROM)}>
-                <option value="">From where?</option>
+                <option value="">From</option>
                 {airportSelection()}
               </select>
             </div>
@@ -115,7 +122,7 @@ const FlightSearchBar = props => {
           <div className="control is-expanded has-icons-left">
             <div className="select is-fullwidth">
               <select value={toID} onChange={e => handleChange(e, TO)}>
-                <option value="">To where?</option>
+                <option value="">To</option>
                 {airportSelection()}
               </select>
             </div>
@@ -128,10 +135,11 @@ const FlightSearchBar = props => {
           <div className="control is-expanded has-icons-left">
             <DatePicker
               className="input"
-              minDate={new Date()}
+              minDate={today}
               showPopperArrow={false}
               selected={date}
               onChange={d => setDate(d)}
+              placeholderText="Date"
             />
             <div className="icon is-small is-left">
               <i className="fas fa-calendar" />
@@ -156,7 +164,7 @@ const FlightSearchBar = props => {
           <button
             type="submit"
             onClick={search}
-            className={`button is-primary is-rounded${props.isInverted ? ' is-inverted' : ''}`}
+            className={`button is-primary is-rounded${isInverted ? ' is-inverted' : ''}`}
           >
             Search
           </button>

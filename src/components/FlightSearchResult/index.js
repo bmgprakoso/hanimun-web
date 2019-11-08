@@ -8,13 +8,15 @@ import AlternateSection from '../AlternateSection';
 import { formatDateWithStripe } from '../../util/display';
 
 const FlightSearchResult = props => {
+  const { query } = props;
+  const { fromID, toID, date } = query;
+
   const [results, setResults] = useState([]);
   const [dateQuery, setDateQuery] = useState('');
   const [isError, setIsError] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
 
   async function fetchData() {
-    const { fromID, toID, date } = props.query;
     setDateQuery(formatDateWithStripe(date));
     setIsError(false);
     setIsEmpty(false);
@@ -47,7 +49,7 @@ const FlightSearchResult = props => {
 
   useEffect(() => {
     fetchData();
-  }, [props.query]);
+  }, [query]);
 
   const generateFlightSearchResults = () =>
     results.map(r => {
@@ -82,11 +84,7 @@ const FlightSearchResult = props => {
     <Section>
       <div className="container">
         <SectionHeader title="Search Result" size={2} />
-        <FlightSearchBar
-          fromID={props.query.fromID}
-          toID={props.query.toID}
-          date={props.query.date}
-        />
+        <FlightSearchBar fromID={fromID} toID={toID} date={date} />
         <br />
         {showResult()}
       </div>

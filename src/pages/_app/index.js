@@ -18,8 +18,8 @@ function App() {
   return (
     <ProvideAuth>
       <Router>
-        <Navbar color="primary" spaced logo="http://tinyimg.io/i/HpHHvBy.png" />
-
+        {/* <Navbar color="primary" spaced logo="http://tinyimg.io/i/HpHHvBy.png" /> */}
+        <Navbar color="primary" spaced logo="http://tinyimg.io/i/GRA2VCo.png" />
         <Switch>
           <Route exact path="/" component={HomePage} />
 
@@ -64,7 +64,7 @@ function App() {
 
         <Divider color="light" />
         <Footer
-          color="white"
+          color="footer"
           logo="http://tinyimg.io/i/HpHHvBy.png"
           description="Hanimun is a free and inspirational global travel search site for your honeymoon occasion"
           copyright="© Hanimun"
