@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../util/auth';
 import SectionHeader from '../../components/SectionHeader';
 import Section from '../../components/Section';
 import PriceTable from '../../components/PriceTable';
 import MyFlightOrderDetail from '../../components/MyFlightOrderDetail';
-import { BACKEND_URL, ENDPOINT, PRODUCT_TYPE } from '../../data/constants';
+import { BACKEND_URL, ENDPOINT } from '../../data/constants';
 import AlternateSection from '../../components/AlternateSection';
 import MyHotelOrderDetail from '../../components/MyHotelOrderDetail';
 
 const MyOrderDetailPage = props => {
+  const auth = useAuth();
   const [productData, setProductData] = useState({});
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -30,8 +32,14 @@ const MyOrderDetailPage = props => {
   }
 
   useEffect(() => {
-    fetchData();
+    if (auth.user) {
+      fetchData();
+    }
   }, []);
+
+  if (!auth.user) {
+    return <AlternateSection pageNotFound />;
+  }
 
   if (isError) {
     return <AlternateSection error />;

@@ -2,18 +2,26 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
+import { useAuth } from '../../util/auth';
 import Section from '../../components/Section';
 import SectionHeader from '../../components/SectionHeader';
 import MyOrderCard from '../../components/MyOrderCard';
 import FlightHistory from '../../components/FlightHistory';
 import HotelHistory from '../../components/HotelHistory';
+import AlternateSection from '../../components/AlternateSection';
 
 const FLIGHT = 'FLIGHT';
 const HOTEL = 'HOTEL';
 const PACKAGE = 'PACKAGE';
 
 const MyOrdersPage = () => {
+  const auth = useAuth();
+
   const [activeTab, setActiveTab] = useState(FLIGHT);
+
+  if (!auth.user) {
+    return <AlternateSection pageNotFound />;
+  }
 
   return (
     <Section>

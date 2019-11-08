@@ -19,7 +19,7 @@ const PackageSearchResult = props => {
     setIsError(false);
     setIsEmpty(false);
     const res = await fetch(
-      `${BACKEND_URL}${ENDPOINT.GET_PACKAGE_SEARCH_RESULT}?toCityCode=${toCityCode}`,
+      `${BACKEND_URL}${ENDPOINT.GET_PACKAGE_SEARCH_RESULT}?fromCityCode=${fromCityCode}&toCityCode=${toCityCode}`,
     );
     res
       .json()

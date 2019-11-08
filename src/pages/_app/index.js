@@ -13,6 +13,7 @@ import './styles.scss';
 import OrderDetailPage from '../orderdetail';
 import MyOrdersPage from '../myorders';
 import MyOrderDetailPage from '../myorderdetail';
+import AlternateSection from '../../components/AlternateSection';
 
 function App() {
   return (
@@ -43,23 +44,7 @@ function App() {
 
           <Route exact path="/myorders/hotel/:id" component={MyOrderDetailPage} />
 
-          <Route
-            component={({ location }) => {
-              return (
-                <div
-                  style={{
-                    padding: '50px',
-                    width: '100%',
-                    textAlign: 'center',
-                  }}
-                >
-                  The page
-                  <code>{location.pathname}</code>
-                  could not be found.
-                </div>
-              );
-            }}
-          />
+          <Route component={() => <AlternateSection pageNotFound />} />
         </Switch>
 
         <Divider color="light" />

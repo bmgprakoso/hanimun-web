@@ -410,7 +410,9 @@ const OrderDetailPage = props => {
   }
 
   useEffect(() => {
-    fetchAll();
+    if (auth.user) {
+      fetchAll();
+    }
   }, [auth.user]);
 
   const checkout = () => {
@@ -446,6 +448,16 @@ const OrderDetailPage = props => {
         return <div />;
     }
   };
+
+  if (!auth.user) {
+    return (
+      <Section>
+        <div className="container OrderDetail__alternate-view">
+          <AlternateSection pageNotFound />
+        </div>
+      </Section>
+    );
+  }
 
   if (isLoading) {
     return (
