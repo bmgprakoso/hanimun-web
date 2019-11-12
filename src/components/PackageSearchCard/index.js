@@ -8,16 +8,7 @@ import { formatPrice } from '../../util/display';
 const PackageSearchCard = props => {
   const router = useRouter();
 
-  const {
-    city,
-    durationInDays,
-    durationInNights,
-    packageDescription,
-    packageId,
-    packageName,
-    price,
-    rate,
-  } = props;
+  const { city, durationDays, durationNights, description, id, name, price, rate } = props;
 
   const packageStar = () => {
     const stars = [...Array(parseInt(rate, 10))].map(() => (
@@ -28,9 +19,9 @@ const PackageSearchCard = props => {
 
   const select = () => {
     router.push({
-      pathname: `/package/${packageId}`,
+      pathname: `/package/${id}`,
       state: {
-        packageId,
+        id,
       },
     });
   };
@@ -45,19 +36,17 @@ const PackageSearchCard = props => {
       <div className="card-content">
         <div className="media">
           <div className="media-content">
-            <p className="has-text-weight-bold">{packageName}</p>
+            <p className="has-text-weight-bold">{name}</p>
             <div>{packageStar()}</div>
             <p>{city}</p>
             <p>
-              {`${durationInDays} day(s), ${
-                durationInNights > 0 ? ` ${durationInNights} night(s)` : ''
-              }`}
+              {`${durationDays} day(s), ${durationNights > 0 ? ` ${durationNights} night(s)` : ''}`}
             </p>
           </div>
         </div>
 
         <div className="content">
-          {packageDescription}
+          {description}
           <br />
           <br />
           <p className="has-text-weight-bold">{formatPrice(price)}</p>

@@ -5,6 +5,7 @@ import PackageSearchCard from '../PackageSearchCard';
 import AlternateSection from '../AlternateSection';
 import Section from '../Section';
 import SectionHeader from '../SectionHeader';
+import { formatDateWithStripe } from '../../util/display';
 import './styles.scss';
 
 const PackageSearchResult = props => {
@@ -19,7 +20,11 @@ const PackageSearchResult = props => {
     setIsError(false);
     setIsEmpty(false);
     const res = await fetch(
-      `${BACKEND_URL}${ENDPOINT.GET_PACKAGE_SEARCH_RESULT}?fromCityCode=${fromCityCode}&toCityCode=${toCityCode}`,
+      `${BACKEND_URL}${
+        ENDPOINT.GET_PACKAGE_SEARCH_RESULT
+      }?fromCityCode=${fromCityCode}&toCityCode=${toCityCode}&startDate=${formatDateWithStripe(
+        date,
+      )}`,
     );
     res
       .json()
@@ -27,11 +32,11 @@ const PackageSearchResult = props => {
         const resultsData = r.data.map(e => {
           return {
             city: e.city,
-            durationInDays: e.durationInDays,
-            durationInNights: e.durationInNights,
-            packageDescription: e.packageDescription,
-            packageId: e.packageId,
-            packageName: e.packageName,
+            durationDays: e.durationDays,
+            durationNights: e.durationNights,
+            description: e.description,
+            id: e.id,
+            name: e.name,
             price: e.price,
             rate: e.rate,
           };
@@ -53,11 +58,11 @@ const PackageSearchResult = props => {
       <div className="column is-4-desktop is-12-mobile">
         <PackageSearchCard
           city={r.city}
-          durationInDays={r.durationInDays}
-          durationInNights={r.durationInNights}
-          packageDescription={r.packageDescription}
-          packageId={r.packageId}
-          packageName={r.packageName}
+          durationDays={r.durationDays}
+          durationNights={r.durationNights}
+          description={r.description}
+          id={r.id}
+          name={r.name}
           price={r.price}
           rate={r.rate}
         />
