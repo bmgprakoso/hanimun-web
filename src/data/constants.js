@@ -4,6 +4,7 @@ const ENDPOINT = {
   GET_FLIGHT_SEARCH_RESULT: 'flight/list',
   GET_HOTEL_SEARCH_RESULT: 'hotel/list',
   GET_PACKAGE_SEARCH_RESULT: 'package/list',
+  GET_PACKAGE_DETAIL: 'package/detail',
   GET_PASSENGER: 'passenger',
   GET_PAYMENT: 'user/payment',
   GET_FLIGHT_DETAIL: 'flight/detail',

@@ -8,7 +8,7 @@ import { formatPrice } from '../../util/display';
 const PackageSearchCard = props => {
   const router = useRouter();
 
-  const { city, durationDays, durationNights, description, id, name, price, rate } = props;
+  const { city, durationDays, durationNights, description, id, name, price, rate, date } = props;
 
   const packageStar = () => {
     const stars = [...Array(parseInt(rate, 10))].map(() => (
@@ -22,6 +22,7 @@ const PackageSearchCard = props => {
       pathname: `/package/${id}`,
       state: {
         id,
+        date,
       },
     });
   };

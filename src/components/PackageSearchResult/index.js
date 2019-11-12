@@ -65,6 +65,7 @@ const PackageSearchResult = props => {
           name={r.name}
           price={r.price}
           rate={r.rate}
+          date={formatDateWithStripe(date)}
         />
       </div>
     ));

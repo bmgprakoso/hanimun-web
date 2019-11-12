@@ -14,6 +14,7 @@ import OrderDetailPage from '../orderdetail';
 import MyOrdersPage from '../myorders';
 import MyOrderDetailPage from '../myorderdetail';
 import AlternateSection from '../../components/AlternateSection';
+import PackageDetailPage from '../packagedetail';
 
 function App() {
   return (
@@ -27,6 +28,8 @@ function App() {
           <Route exact path="/hotels" component={HomePage} />
 
           <Route exact path="/packages" component={HomePage} />
+
+          <Route exact path="/package/:id" component={PackageDetailPage} />
 
           <Route exact path="/signin" component={SigninPage} />
 
