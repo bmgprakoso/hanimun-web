@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../util/auth';
 import { useRouter } from '../../util/router';
 import Section from '../../components/Section';
 import SectionHeader from '../../components/SectionHeader';
@@ -10,7 +9,7 @@ import AlternateSection from '../../components/AlternateSection';
 import { BACKEND_URL, ENDPOINT } from '../../data/constants';
 import { formatPrice } from '../../util/display';
 
-const ITINERARIES = 'Itineraries';
+const ITINERARY = 'Itinerary';
 const INCLUSIONS = 'Inclusions';
 const EXCLUSIONS = 'Exclusions';
 const TNC = 'Terms and Conditions';
@@ -18,11 +17,10 @@ const TNC = 'Terms and Conditions';
 const PackageDetailPage = props => {
   const { id, date } = props.location.state;
 
-  const auth = useAuth();
   const router = useRouter();
 
   const [packageDetail, setPackageDetail] = useState({});
-  const [activeTab, setActiveTab] = useState(ITINERARIES);
+  const [activeTab, setActiveTab] = useState(ITINERARY);
   const [flight, setFlight] = useState({});
   const [hotel, setHotel] = useState({});
 
@@ -111,7 +109,7 @@ const PackageDetailPage = props => {
                 <div className="is-size-4 has-text-weight-bold">{formatPrice(price)}</div>
                 <button
                   type="submit"
-                  className="button is-success FlightSearchCard__select-button"
+                  className="button is-info FlightSearchCard__select-button"
                   // onClick={select}
                 >
                   <span className="icon">
@@ -127,18 +125,37 @@ const PackageDetailPage = props => {
     );
   };
 
+  const itineraryView = () => (
+    <div>
+      <p>itinerary</p>
+    </div>
+  );
+  const inclusionsView = () => {
+    return <p>inclusions</p>;
+  };
+  const exclusionsView = () => (
+    <div>
+      <p>exclusions</p>
+    </div>
+  );
+  const tncView = () => (
+    <div>
+      <p>tnc</p>
+    </div>
+  );
+
   const detailTabView = () => {
     return (
       <div className="card">
         <div className="card-content">
           <div className="tabs is-boxed">
             <ul>
-              <li className={activeTab === ITINERARIES && 'is-active'}>
-                <a onClick={() => setActiveTab(ITINERARIES)}>
+              <li className={activeTab === ITINERARY && 'is-active'}>
+                <a onClick={() => setActiveTab(ITINERARY)}>
                   <span className="icon is-small">
                     <i className="far fa-flag" />
                   </span>
-                  <span>{ITINERARIES}</span>
+                  <span>{ITINERARY}</span>
                 </a>
               </li>
               <li className={activeTab === INCLUSIONS && 'is-active'}>
@@ -167,6 +184,11 @@ const PackageDetailPage = props => {
               </li>
             </ul>
           </div>
+
+          {activeTab === ITINERARY && itineraryView()}
+          {activeTab === INCLUSIONS && inclusionsView()}
+          {activeTab === EXCLUSIONS && exclusionsView()}
+          {activeTab === TNC && tncView()}
         </div>
       </div>
     );
