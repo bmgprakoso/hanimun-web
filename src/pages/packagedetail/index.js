@@ -57,6 +57,13 @@ const PackageDetailPage = props => {
     fetchData();
   }, []);
 
+  const select = () => {
+    router.push({
+      pathname: '/orderdetail',
+      // state: { type: PRODUCT_TYPE.FLIGHTS, query: { id: props.flightId, date: props.date } },
+    });
+  };
+
   const packageStar = () => {
     const stars = [...Array(parseInt(packageDetail.rate, 10))].map(() => (
       <i className="fas fa-star has-text-warning" />
@@ -110,7 +117,7 @@ const PackageDetailPage = props => {
                 <button
                   type="submit"
                   className="button is-info FlightSearchCard__select-button"
-                  // onClick={select}
+                  onClick={select}
                 >
                   <span className="icon">
                     <i className="fas fa-check" />

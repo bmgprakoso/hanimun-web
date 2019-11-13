@@ -215,7 +215,7 @@ const OrderDetailPage = props => {
     switch (type) {
       case PRODUCT_TYPE.FLIGHTS: {
         const { id, date } = query;
-        return `${BACKEND_URL}${ENDPOINT.GET_FLIGHT_DETAIL}?flightId=${`862`}&date=${date}`;
+        return `${BACKEND_URL}${ENDPOINT.GET_FLIGHT_DETAIL}?flightId=${id}&date=${date}`;
       }
       case PRODUCT_TYPE.HOTELS: {
         const { roomId } = query;
@@ -410,9 +410,7 @@ const OrderDetailPage = props => {
   }
 
   useEffect(() => {
-    if (auth.user) {
-      fetchAll();
-    }
+    fetchAll();
   }, [auth.user]);
 
   const checkout = () => {
@@ -448,16 +446,6 @@ const OrderDetailPage = props => {
         return <div />;
     }
   };
-
-  if (!auth.user) {
-    return (
-      <Section>
-        <div className="container OrderDetail__alternate-view">
-          <AlternateSection pageNotFound />
-        </div>
-      </Section>
-    );
-  }
 
   if (isLoading) {
     return (
