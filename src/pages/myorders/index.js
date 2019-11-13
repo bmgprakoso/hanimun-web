@@ -27,7 +27,7 @@ const MyOrdersPage = () => {
     <Section>
       <div className="container">
         <SectionHeader title="My Orders" size={2} />
-        <div className="tabs is-centered">
+        <div className="tabs is-boxed">
           <ul>
             <li className={activeTab === FLIGHT && 'is-active'}>
               <a onClick={() => setActiveTab(FLIGHT)}>

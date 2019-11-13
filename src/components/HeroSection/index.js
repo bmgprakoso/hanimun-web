@@ -21,7 +21,12 @@ const HeroSection = props => {
   };
 
   return (
-    <Section color={props.color} size={props.size}>
+    <Section
+      color={props.color}
+      size={props.size}
+      backgroundImage={props.backgroundImage}
+      backgroundImageOpacity="0.5"
+    >
       <div className="container">
         <SectionHeader title={props.title} subtitle={props.subtitle} centered size={1} />
         {searchBar()}
