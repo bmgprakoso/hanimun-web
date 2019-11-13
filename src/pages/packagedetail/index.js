@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../util/auth';
 import { useRouter } from '../../util/router';
@@ -7,6 +10,11 @@ import AlternateSection from '../../components/AlternateSection';
 import { BACKEND_URL, ENDPOINT } from '../../data/constants';
 import { formatPrice } from '../../util/display';
 
+const ITINERARIES = 'Itineraries';
+const INCLUSIONS = 'Inclusions';
+const EXCLUSIONS = 'Exclusions';
+const TNC = 'Terms and Conditions';
+
 const PackageDetailPage = props => {
   const { id, date } = props.location.state;
 
@@ -14,6 +22,7 @@ const PackageDetailPage = props => {
   const router = useRouter();
 
   const [packageDetail, setPackageDetail] = useState({});
+  const [activeTab, setActiveTab] = useState(ITINERARIES);
   const [flight, setFlight] = useState({});
   const [hotel, setHotel] = useState({});
 
@@ -73,7 +82,10 @@ const PackageDetailPage = props => {
           <div className="media">
             <div className="media-left">
               <figure className="image is-48x48">
-                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image" />
+                <img
+                  src={`https://ui-avatars.com/api/?name=${name.split(' ').join('+')}`}
+                  alt="Package avatar"
+                />
               </figure>
             </div>
             <div className="media-content">
@@ -84,21 +96,76 @@ const PackageDetailPage = props => {
         </div>
         <div className="card-image">
           <figure className="image is-3by1">
-            <img src="https://via.placeholder.com/720x240" alt="package" />
+            <img src="https://source.unsplash.com/720x240/?travel,nature" alt="package" />
           </figure>
         </div>
         <div className="card-content">
           <div className="content">
             <div className="columns">
               <div className="column">
-                <div>{`${durationDays} day(s), ${durationNights} night(s)`}</div>
+                <div className="has-text-weight-bold">{`${durationDays} day(s), ${durationNights} night(s)`}</div>
                 <div>{description}</div>
                 <div>{packageStar()}</div>
               </div>
               <div className="column is-narrow">
-                <div>{formatPrice(price)}</div>
+                <div className="is-size-4 has-text-weight-bold">{formatPrice(price)}</div>
+                <button
+                  type="submit"
+                  className="button is-success FlightSearchCard__select-button"
+                  // onClick={select}
+                >
+                  <span className="icon">
+                    <i className="fas fa-check" />
+                  </span>
+                  <span>Select</span>
+                </button>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const detailTabView = () => {
+    return (
+      <div className="card">
+        <div className="card-content">
+          <div className="tabs is-boxed">
+            <ul>
+              <li className={activeTab === ITINERARIES && 'is-active'}>
+                <a onClick={() => setActiveTab(ITINERARIES)}>
+                  <span className="icon is-small">
+                    <i className="far fa-flag" />
+                  </span>
+                  <span>{ITINERARIES}</span>
+                </a>
+              </li>
+              <li className={activeTab === INCLUSIONS && 'is-active'}>
+                <a onClick={() => setActiveTab(INCLUSIONS)}>
+                  <span className="icon is-small">
+                    <i className="fas fa-sign-in-alt" />
+                  </span>
+                  <span>{INCLUSIONS}</span>
+                </a>
+              </li>
+              <li className={activeTab === EXCLUSIONS && 'is-active'}>
+                <a onClick={() => setActiveTab(EXCLUSIONS)}>
+                  <span className="icon is-small">
+                    <i className="fas fa-sign-out-alt" />
+                  </span>
+                  <span>{EXCLUSIONS}</span>
+                </a>
+              </li>
+              <li className={activeTab === TNC && 'is-active'}>
+                <a onClick={() => setActiveTab(TNC)}>
+                  <span className="icon is-small">
+                    <i className="fas fa-tasks" />
+                  </span>
+                  <span>{TNC}</span>
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -114,7 +181,12 @@ const PackageDetailPage = props => {
       return <AlternateSection loading />;
     }
 
-    return <div>{packageSummaryView()}</div>;
+    return (
+      <div>
+        {packageSummaryView()}
+        {detailTabView()}
+      </div>
+    );
   };
 
   return (

@@ -5,6 +5,7 @@ import { PRODUCT_TYPE } from '../../data/constants';
 import './styles.scss';
 
 const HotelSearchCard = props => {
+  const { hotelName, rate, address, startDate, endDate, roomType, price, roomId } = props;
   const router = useRouter();
 
   const select = () => {
@@ -12,13 +13,13 @@ const HotelSearchCard = props => {
       pathname: '/orderdetail',
       state: {
         type: PRODUCT_TYPE.HOTELS,
-        query: { roomId: props.roomId, startDate: props.startDate, endDate: props.endDate },
+        query: { roomId, startDate, endDate },
       },
     });
   };
 
-  const hotelStar = count => {
-    const stars = [...Array(parseInt(count, 10))].map(() => (
+  const hotelStar = () => {
+    const stars = [...Array(parseInt(rate, 10))].map(() => (
       <i className="fas fa-star has-text-warning" />
     ));
     return <div>{stars}</div>;
@@ -32,24 +33,25 @@ const HotelSearchCard = props => {
             <div className="columns is-vcentered">
               <div className="column is-narrow">
                 <figure className="image container is-96x96">
-                  <img src="https://placeholder.pics/svg/300" alt="Placeholder" />
+                  <img
+                    src={`https://ui-avatars.com/api/?name=${hotelName.split(' ').join('+')}`}
+                    alt="Placeholder"
+                  />
                 </figure>
               </div>
               <div className="column">
-                <div className="has-text-weight-bold">{props.hotelName}</div>
-                <div>{hotelStar(props.rate)}</div>
+                <div className="has-text-weight-bold">{hotelName}</div>
+                <div>{hotelStar()}</div>
                 <br />
-                <div>{props.address}</div>
+                <div>{address}</div>
               </div>
               <div className="column">
                 <div className="has-text-weight-bold">
-                  {`${dayDiff(props.startDate, props.endDate)} day(s)`}
+                  {`${dayDiff(startDate, endDate)} day(s)`}
                 </div>
-                <div>
-                  {`${formatDateComplete(props.startDate)} — ${formatDateComplete(props.endDate)}`}
-                </div>
+                <div>{`${formatDateComplete(startDate)} — ${formatDateComplete(endDate)}`}</div>
                 <br />
-                <div>{`1 Room (${props.roomType} type)`}</div>
+                <div>{`1 Room (${roomType} type)`}</div>
               </div>
             </div>
           </div>
@@ -58,9 +60,9 @@ const HotelSearchCard = props => {
           <div className="card-content has-background-light">
             <div className="columns is-vcentered">
               <div className="column is-narrow">
-                <div className="is-size-7">{`${formatPrice(props.price)}/day`}</div>
+                <div className="is-size-7">{`${formatPrice(price)}/day`}</div>
                 <div className="is-size-4 has-text-weight-bold">
-                  {formatPrice(props.price * parseInt(dayDiff(props.startDate, props.endDate), 10))}
+                  {formatPrice(price * parseInt(dayDiff(startDate, endDate), 10))}
                 </div>
                 <button
                   type="submit"
