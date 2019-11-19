@@ -5,6 +5,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
+import * as emailjs from 'emailjs-com';
 import { useAuth } from '../../util/auth';
 import FlightOrderDetail from '../../components/FlightOrderDetail';
 import HotelOrderDetail from '../../components/HotelOrderDetail';
@@ -291,6 +292,16 @@ const OrderDetailPage = props => {
     }
   };
 
+  const sendEmail = () => {
+    const templateParams = {
+      from_name: 'Hanimun',
+      to_name: email,
+      subject: 'Your Order Detail from Hanimun',
+      message_html: 'message',
+    };
+    emailjs.send('gmail', 'template_VYulkVCD', templateParams, 'user_caa1Arw0McKU4DeGuPCzY');
+  };
+
   const constructOrderBody = () => {
     const { type } = props.location.state;
     const dateNow = new Date();
@@ -437,6 +448,7 @@ const OrderDetailPage = props => {
             if (submitRes.status !== 200) {
               setIsShowErrorModal(true);
             } else {
+              sendEmail();
               setIsShowModal(true);
             }
           })
@@ -449,6 +461,7 @@ const OrderDetailPage = props => {
           body: JSON.stringify(constructOrderBody()),
         })
           .then(() => {
+            sendEmail();
             setIsShowModal(true);
           })
           .catch(() => {
