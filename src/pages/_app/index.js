@@ -47,6 +47,8 @@ function App() {
 
           <Route exact path="/myorders/hotel/:id" component={MyOrderDetailPage} />
 
+          <Route exact path="/myorders/package/:id" component={MyOrderDetailPage} />
+
           <Route component={() => <AlternateSection pageNotFound />} />
         </Switch>
 

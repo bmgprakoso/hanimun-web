@@ -7,6 +7,7 @@ import MyFlightOrderDetail from '../../components/MyFlightOrderDetail';
 import { BACKEND_URL, ENDPOINT } from '../../data/constants';
 import AlternateSection from '../../components/AlternateSection';
 import MyHotelOrderDetail from '../../components/MyHotelOrderDetail';
+import MyPackageOrderDetail from '../../components/MyPackageOrderDetail';
 
 const MyOrderDetailPage = props => {
   const auth = useAuth();
@@ -56,6 +57,8 @@ const MyOrderDetailPage = props => {
         return <MyFlightOrderDetail data={productData} />;
       case 'HTL':
         return <MyHotelOrderDetail data={productData} />;
+      case 'PCK':
+        return <MyPackageOrderDetail data={productData} />;
       default:
         return <div />;
     }
@@ -68,6 +71,8 @@ const MyOrderDetailPage = props => {
         return <PriceTable price={productData.price} label="Adult (x2)" />;
       case 'HTL':
         return <PriceTable price={productData.price} label={`${productData.duration} Day(s)`} />;
+      case 'PCK':
+        return <PriceTable price={productData.price} label="Package" />;
       default:
         return <div />;
     }

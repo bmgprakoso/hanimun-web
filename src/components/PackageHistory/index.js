@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../util/auth';
 import { BACKEND_URL, ENDPOINT } from '../../data/constants';
 import AlternateSection from '../AlternateSection';
-import FlightHistoryCard from '../FlightHistoryCard';
+import PackageHistoryCard from '../PackageHistoryCard';
 
-const FlightHistory = () => {
+const PackageHistory = () => {
   const auth = useAuth();
   const [results, setResults] = useState([]);
   const [isError, setIsError] = useState(false);
@@ -14,7 +14,7 @@ const FlightHistory = () => {
     setIsError(false);
     setIsEmpty(false);
     const res = await fetch(
-      `${BACKEND_URL}${ENDPOINT.GET_ORDER_HISTORY}?email=${auth.user.email}&orderType=FLG`,
+      `${BACKEND_URL}${ENDPOINT.GET_ORDER_HISTORY}?email=${auth.user.email}&orderType=PCK`,
     );
     res
       .json()
@@ -22,13 +22,10 @@ const FlightHistory = () => {
         console.log(r);
         const resultsData = r.data.map(e => {
           return {
-            arrivalAirportCode: e.arrivalAirportCode,
-            arrivalCity: e.arrivalCity,
+            city: e.city,
             date: e.date,
-            departureAirportCode: e.departureAirportCode,
-            departureCity: e.departureCity,
-            flightOrderId: e.flightOrderId,
             orderId: e.orderId,
+            packageName: e.packageName,
             price: e.price,
           };
         });
@@ -48,15 +45,11 @@ const FlightHistory = () => {
 
   const generateResults = () => {
     return results.map(r => (
-      <FlightHistoryCard
-        key={r.orderId}
-        arrivalAirportCode={r.arrivalAirportCode}
-        arrivalCity={r.arrivalCity}
+      <PackageHistoryCard
+        city={r.city}
         date={r.date}
-        departureAirportCode={r.departureAirportCode}
-        departureCity={r.departureCity}
-        flightOrderId={r.flightOrderId}
         orderId={r.orderId}
+        packageName={r.packageName}
         price={r.price}
       />
     ));
@@ -73,4 +66,4 @@ const FlightHistory = () => {
   return <div>{generateResults()}</div>;
 };
 
-export default FlightHistory;
+export default PackageHistory;

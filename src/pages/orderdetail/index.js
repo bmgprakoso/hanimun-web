@@ -424,8 +424,14 @@ const OrderDetailPage = props => {
             body: JSON.stringify(constructOrderBody()),
           }),
         ])
-          .then(() => {
-            setIsShowModal(true);
+          .then(r => {
+            const [submitRes] = r;
+            if (submitRes.status !== 200) {
+              setIsShowErrorModal(true);
+              console.log(submitRes);
+            } else {
+              setIsShowModal(true);
+            }
           })
           .catch(() => {
             setIsShowErrorModal(true);
