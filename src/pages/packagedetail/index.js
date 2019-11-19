@@ -167,20 +167,99 @@ const PackageDetailPage = props => {
 
   const itineraryView = () => (
     <div>
-      <p>itinerary</p>
+      <p>
+        Hari ke-1 Tiba di Tujuan
+        <br />
+        Saat yang Anda tunggu-tunggu telah tiba! Anda berdua akan tiba di Airport Tujuan. Setelah
+        selesai dengan proses imigrasi (visa on arrival) dan baggage custom, Anda dapat langsung
+        melanjutkan perjalanan menuju Resort. Setibanya di Resort, Anda dapat langsung melakukan
+        proses check-in dan beristirahat, Anda dapat menikmati makan malam dan bersantai di Bar di
+        Club Resort kami.
+        <br />
+        <br />
+        Hari ke-2 Nikmati Awal Perjalanan di Tujuan Pertama
+        <br />
+        Pagi hari, Anda berdua dapat benar-benar menikmati keindahan suasana di tujuan pertama.
+        Habiskan waktu berdua dengan berkeliling menjelajahi resort dengan terpaan sinar matahari
+        pagi. Setelah itu Anda dapat menikmati makan pagi dengan berjalan kaki menuju restaurant,
+        pilihlah tempat duduk yang terbaik untuk menikmati pemandangan laut yang indah. Setelah
+        makan pagi, Anda bebas melakukan kegiatan berdua di area resort yang telah menyiapkan banyak
+        fasilitas seperti swimming pool, serta kegiatan yang ada di dalam resort hingga menikmati
+        makanan dan minuman di bar dan restoran. Di sore hari Anda dapat menikmati evening show yang
+        biasa disediakan oleh pihak resort untuk menghibur atau Anda juga dapat pergi ke bar untuk
+        menikmati minuman yang tersedia secara free flow dan memandang panorama sunset yang sangat
+        indah. Nikmati Makan malam Anda berdua dan kembali ke kamar Anda.
+        <br />
+        <br />
+        Hari ke-3 Kenikmatan Pemandangan di Tujuan Kedua
+        <br />
+        Hari ini setelah menikmati makan pagi, Anda berdua dapat mengeksplorasi keindahan
+        pemandangan yang eksotis bersama pasangan dengan breakfast romantis di bawah sinar sejuk
+        matahari. Anda dapat menikmati waktu-waktu berdua dimana Anda dapat bergabung dengan program
+        reflexology yang tenang dengan aromaterapi yang wangi menyejukkan. Malam hari Anda dapat
+        menikmati dinner di Dining Restaurant dengan menu seperti lobster dan champange dengan mutu
+        terbaik.
+        <br />
+        <br />
+        Hari ke-4 Pelajaran berharga bersama pasangan
+        <br />
+        Hari ini khusus untuk Anda dan pasangan akan diajak untuk memulai cooking school agar dapat
+        mulai belajar cara memasak dan menyenangkan pasangan dengan masakan Anda yang paling enak.
+        Fasilitas belajar memasak yang baik mendukung keahlian kerjasama Anda berdua dalam
+        mempersiapkan masakan Anda. Dengan memetik bahan masakan sendiri, Anda berdua akan menikmati
+        pengalaman yang berharga yang akan Anda hadapi seumur hidup.
+        <br />
+        <br />
+        Hari ke-5 Hari terakhir, tapi bukan akhir segalanya
+        <br />
+        Di hari terakhir, Anda berdua bisa mulai berkemas dengan tenang dan rileks sambil menonton
+        saluran TV cable dengan LCD TV yang tersedia di setiap kamar atau Anda juga bisa mengakses
+        internet dengan free wi-fi yang disediakan. Setelah makan pagi Anda bisa menitipkan barang
+        luggage Anda di counter hotel. Setelah itu Anda tetap dapat menikmati fasilitas di resort
+        dan menikmati waktu-waktu Anda sambil menikmati segala keindahan alamnya. Anda juga bisa
+        mengunjungi gift shop untuk membeli oleh-oleh untuk keluarga atau kerabat. Setelah tiba
+        waktunya check-out, Anda dapat menuju bandara untuk melanjutkan perjalanan kembali ke tanah
+        air.
+      </p>
     </div>
   );
   const inclusionsView = () => {
-    return <p>inclusions</p>;
+    return (
+      <ul>
+        <li>
+          1. Biaya sudah termasuk paket pesawat, hotel dan fasilitas bulan madu di tempat tujuan.
+        </li>
+        <li>2. Paket pesawat dengan kelas terbaik dari Garuda Indonesia Airlines.</li>
+        <li>
+          3. Paket hotel berbintang dengan fasilitas unlimited bar, aktivitas olahraga, dan
+          aktivitas reflexology.
+        </li>
+        <li>4. Hiburan malam yang unik dan penuh romantis.</li>
+        <li>
+          5. Paket bulan madu dengan dekorasi kamar yang menarik, tersedia bottle of wine, prioritas
+          check in dan check out dengan pelayanan hotel terbaik.
+        </li>
+      </ul>
+    );
   };
   const exclusionsView = () => (
-    <div>
-      <p>exclusions</p>
-    </div>
+    <ul>
+      <li>1. Tidak termasuk pengeluaran pribadi Anda termasuk pembelian oleh-oleh.</li>
+      <li>2. Perjalanan menuju ke/dari bandara/resort tidak disediakan.</li>
+    </ul>
   );
   const tncView = () => (
     <div>
-      <p>tnc</p>
+      <ul>
+        <li>
+          1. Hanya untuk Warga Negara yang memiliki tanda pengenal seperti KTP, SIM,atau Paspor yang
+          valid.
+        </li>
+        <li>
+          2. Ketentuan waktu check-in hotel pada pukul 13.00 dan waktu check-out pada pukul 12:00.
+        </li>
+        <li>3. Keterlambatan penerbangan adalah tanggungan pribadi.</li>
+      </ul>
     </div>
   );
 
