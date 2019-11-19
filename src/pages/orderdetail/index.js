@@ -236,7 +236,9 @@ const OrderDetailPage = props => {
             setFirstCustomerIDNumber(firstCustomer.identityNumber);
             setSecondCustomerName(secondCustomer.name);
             setSecondCustomerIDNumber(secondCustomer.identityNumber);
-            setPhone(firstCustomer.phone.substr(1));
+            if (firstCustomer.phone) {
+              setPhone(firstCustomer.phone);
+            }
             setEmail(firstCustomer.email);
           }
 
