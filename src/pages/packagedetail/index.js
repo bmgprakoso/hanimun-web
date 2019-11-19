@@ -6,7 +6,7 @@ import { useRouter } from '../../util/router';
 import Section from '../../components/Section';
 import SectionHeader from '../../components/SectionHeader';
 import AlternateSection from '../../components/AlternateSection';
-import { BACKEND_URL, ENDPOINT } from '../../data/constants';
+import { BACKEND_URL, ENDPOINT, PRODUCT_TYPE } from '../../data/constants';
 import { formatPrice } from '../../util/display';
 
 const ITINERARY = 'Itinerary';
@@ -21,8 +21,8 @@ const PackageDetailPage = props => {
 
   const [packageDetail, setPackageDetail] = useState({});
   const [activeTab, setActiveTab] = useState(ITINERARY);
-  const [flight, setFlight] = useState({});
-  const [hotel, setHotel] = useState({});
+  const [flightDetail, setFlightDetail] = useState({});
+  const [hotelDetail, setHotelDetail] = useState({});
 
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -42,7 +42,7 @@ const PackageDetailPage = props => {
           description: packageData.description,
           durationDays: packageData.duration_days,
           durationNights: packageData.duration_nights,
-          id: packageData.id,
+          packageId: packageData.id,
           name: packageData.name,
           price: packageData.price,
           rate: packageData.rate,
@@ -58,9 +58,15 @@ const PackageDetailPage = props => {
   }, []);
 
   const select = () => {
+    const { packageId, startDate } = packageDetail;
+    const { flightId } = flightDetail;
+    const { roomId } = hotelDetail;
     router.push({
       pathname: '/orderdetail',
-      // state: { type: PRODUCT_TYPE.FLIGHTS, query: { id: props.flightId, date: props.date } },
+      state: {
+        type: PRODUCT_TYPE.PACKAGES,
+        query: { packageId, flightId, roomId, startDate },
+      },
     });
   };
 

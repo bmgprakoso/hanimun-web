@@ -7,19 +7,35 @@ import './styles.scss';
 const FlightSearchCard = props => {
   const {
     airline,
+    departureCity,
+    arrivalCity,
     departureTime,
     arrivalTime,
     departureAirportCode,
     arrivalAirportCode,
     price,
+    flightId,
+    date,
   } = props;
-
+  console.log(props);
   const router = useRouter();
 
   const select = () => {
+    const flightInfo = {
+      airline,
+      departureCity,
+      arrivalCity,
+      departureTime,
+      arrivalTime,
+      departureAirportCode,
+      arrivalAirportCode,
+      price,
+      flightId,
+      startDate: date,
+    };
     router.push({
       pathname: '/orderdetail',
-      state: { type: PRODUCT_TYPE.FLIGHTS, query: { id: props.flightId, date: props.date } },
+      state: { type: PRODUCT_TYPE.FLIGHTS, info: { flightInfo } },
     });
   };
 

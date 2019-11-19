@@ -3,9 +3,7 @@ import Divider from '../Divider';
 import { formatDateComplete, formatPrice, dayDiff } from '../../util/display';
 
 const HotelOrderDetail = props => {
-  const { address, city, hotelName, price, rate, roomType } = props.data;
-
-  const { startDate, endDate } = props;
+  const { address, city, hotelName, price, rate, roomType, startDate, endDate } = props.data;
 
   const hotelStar = count => {
     const stars = [...Array(parseInt(count, 10))].map(() => (

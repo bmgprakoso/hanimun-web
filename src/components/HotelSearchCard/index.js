@@ -5,15 +5,26 @@ import { PRODUCT_TYPE } from '../../data/constants';
 import './styles.scss';
 
 const HotelSearchCard = props => {
-  const { hotelName, rate, address, startDate, endDate, roomType, price, roomId } = props;
+  const { hotelName, rate, address, startDate, endDate, roomType, price, roomId, city } = props;
   const router = useRouter();
 
   const select = () => {
+    const hotelInfo = {
+      hotelName,
+      rate,
+      address,
+      startDate,
+      endDate,
+      roomType,
+      price,
+      roomId,
+      city,
+    };
     router.push({
       pathname: '/orderdetail',
       state: {
         type: PRODUCT_TYPE.HOTELS,
-        query: { roomId, startDate, endDate },
+        info: { hotelInfo },
       },
     });
   };

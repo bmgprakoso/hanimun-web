@@ -12,8 +12,8 @@ const FlightOrderDetail = props => {
     arrivalCity,
     arrivalTime,
     arrivalAirportCode,
-    date,
     price,
+    startDate,
   } = props.data;
 
   return (
@@ -24,7 +24,7 @@ const FlightOrderDetail = props => {
       <div className="has-text-weight-bold">{`${departureCity} (${departureAirportCode}) → ${arrivalCity} (${arrivalAirportCode})`}</div>
       <div>{airline}</div>
       <br />
-      <div className="has-text-weight-bold">{date}</div>
+      <div className="has-text-weight-bold">{startDate}</div>
       <div className="columns is-vcentered">
         <div className="column">
           <div>{formatHourMinute(departureTime)}</div>

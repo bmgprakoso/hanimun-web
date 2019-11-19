@@ -62,7 +62,10 @@ const OrderDetailPage = props => {
   const router = useRouter();
 
   // fetch data
-  const [productData, setProductData] = useState({});
+  const [packageDetail, setPackageDetail] = useState({});
+  const [flightDetail, setFlightDetail] = useState({});
+  const [flightDetailReturn, setFlightDetailReturn] = useState({});
+  const [hotelDetail, setHotelDetail] = useState({});
   const [isShowModal, setIsShowModal] = useState(false);
   const [isShowErrorModal, setIsShowErrorModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -210,26 +213,9 @@ const OrderDetailPage = props => {
     });
   }
 
-  const getProductUrl = () => {
-    const { type, query } = props.location.state;
-    switch (type) {
-      case PRODUCT_TYPE.FLIGHTS: {
-        const { id, date } = query;
-        return `${BACKEND_URL}${ENDPOINT.GET_FLIGHT_DETAIL}?flightId=${id}&date=${date}`;
-      }
-      case PRODUCT_TYPE.HOTELS: {
-        const { roomId } = query;
-        return `${BACKEND_URL}${ENDPOINT.GET_HOTEL_DETAIL}?roomId=${roomId}`;
-      }
-      default:
-        return '';
-    }
-  };
-
   async function fetchAll() {
     try {
       await Promise.all([
-        fetch(getProductUrl()).then(response => response.json()),
         fetch(
           `${BACKEND_URL}${ENDPOINT.GET_PASSENGER}?email=${auth.user ? auth.user.email : ''}`,
         ).then(response => response.json()),
@@ -238,13 +224,7 @@ const OrderDetailPage = props => {
         ).then(response => response.json()),
       ])
         .then(r => {
-          const [orderRes, passengerRes, paymentRes] = r;
-          // order
-          if (orderRes.data[0]) {
-            setProductData(orderRes.data[0]);
-          } else {
-            setIsError(true);
-          }
+          const [passengerRes, paymentRes] = r;
 
           // passenger
           if (passengerRes.data && passengerRes.data.length !== 0) {
@@ -278,17 +258,64 @@ const OrderDetailPage = props => {
     }
   }
 
+  const setProduct = () => {
+    const { type, info } = props.location.state;
+    switch (type) {
+      case PRODUCT_TYPE.FLIGHTS: {
+        const { flightInfo } = info;
+        setFlightDetail(flightInfo);
+        break;
+      }
+      case PRODUCT_TYPE.HOTELS: {
+        const { hotelInfo } = info;
+        setHotelDetail(hotelInfo);
+        break;
+      }
+      case PRODUCT_TYPE.PACKAGES: {
+        const { packageInfo, flightInfo, flightDetailInfo, hotelInfo } = info;
+        setPackageDetail(packageInfo);
+        setFlightDetail(flightInfo);
+        setFlightDetailReturn(flightDetailInfo);
+        setHotelDetail(hotelInfo);
+        break;
+      }
+      default:
+        setIsError(true);
+        break;
+    }
+  };
+
   const constructOrderBody = () => {
-    const { type, query } = props.location.state;
+    const { type } = props.location.state;
     const dateNow = new Date();
     const orderDate = `${dateNow.getFullYear()}-${dateNow.getMonth()}-${dateNow.getDate()}`;
     const orderTime = `${dateNow.getHours()}:${dateNow.getMinutes()}:${dateNow.getSeconds()}`;
+
+    let price;
+    switch (type) {
+      case PRODUCT_TYPE.FLIGHTS: {
+        price = flightDetail.price;
+        break;
+      }
+      case PRODUCT_TYPE.HOTELS: {
+        const { price: hotelPrice, startDate, endDate } = hotelDetail;
+        price = hotelPrice * dayDiff(startDate, endDate);
+        break;
+      }
+      case PRODUCT_TYPE.PACKAGES: {
+        price = packageDetail.price;
+        break;
+      }
+      default:
+        price = 0;
+        break;
+    }
 
     const result = {
       email: auth.user.email,
       orderDate,
       orderTime,
-      price: productData.price,
+      price,
       orderData: {
         email,
         titleFirstPassenger: 'Mr.',
@@ -302,26 +329,25 @@ const OrderDetailPage = props => {
 
     switch (type) {
       case PRODUCT_TYPE.FLIGHTS: {
-        const { date } = query;
         return {
           ...result,
           flightDetail: {
-            flightId: productData.flightId,
+            flightId: flightDetail.flightId,
             numberOfSeat: 2,
-            price: productData.price,
-            date,
+            price: flightDetail.price,
+            date: flightDetail.startDate,
           },
         };
       }
       case PRODUCT_TYPE.HOTELS: {
-        const { startDate, endDate } = query;
+        const { roomId, startDate, endDate } = hotelDetail;
         return {
           ...result,
           hotelDetail: {
-            roomId: productData.roomId,
+            roomId,
             checkinDate: formatDateWithStripe(startDate),
             checkoutDate: formatDateWithStripe(endDate),
-            price: productData.price * dayDiff(startDate, endDate),
+            price: hotelDetail.price * dayDiff(startDate, endDate),
           },
         };
       }
@@ -411,6 +437,7 @@ const OrderDetailPage = props => {
 
   useEffect(() => {
     fetchAll();
+    setProduct();
   }, [auth.user]);
 
   const checkout = () => {
@@ -434,13 +461,12 @@ const OrderDetailPage = props => {
   };
 
   const productOrderDetail = () => {
-    const { type, query } = props.location.state;
+    const { type, info } = props.location.state;
     switch (type) {
       case PRODUCT_TYPE.FLIGHTS:
-        return <FlightOrderDetail data={productData} />;
+        return <FlightOrderDetail data={flightDetail} />;
       case PRODUCT_TYPE.HOTELS: {
-        const { startDate, endDate } = query;
-        return <HotelOrderDetail data={productData} startDate={startDate} endDate={endDate} />;
+        return <HotelOrderDetail data={hotelDetail} />;
       }
       default:
         return <div />;

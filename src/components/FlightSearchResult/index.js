@@ -34,11 +34,14 @@ const FlightSearchResult = props => {
             airline: e.airline,
             departureTime: e.departureTime,
             departureAirportCode: e.departureAirportCode,
+            departureCity: e.departureCity,
+            arrivalCity: e.arrivalCity,
             arrivalTime: e.arrivalTime,
             arrivalAirportCode: e.arrivalAirportCode,
             price: e.price,
           };
         });
+        console.log(resultsData);
         setResults(resultsData);
         if (resultsData.length === 0) {
           setIsEmpty(true);
@@ -59,8 +62,10 @@ const FlightSearchResult = props => {
           flightId={r.id}
           date={dateQuery}
           airline={r.airline}
+          departureCity={r.departureCity}
           departureTime={r.departureTime}
           departureAirportCode={r.departureAirportCode}
+          arrivalCity={r.arrivalCity}
           arrivalTime={r.arrivalTime}
           arrivalAirportCode={r.arrivalAirportCode}
           price={r.price}
