@@ -17,7 +17,6 @@ const FlightSearchCard = props => {
     flightId,
     date,
   } = props;
-  console.log(props);
   const router = useRouter();
 
   const select = () => {

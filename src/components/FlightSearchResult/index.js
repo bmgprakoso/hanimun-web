@@ -41,7 +41,6 @@ const FlightSearchResult = props => {
             price: e.price,
           };
         });
-        console.log(resultsData);
         setResults(resultsData);
         if (resultsData.length === 0) {
           setIsEmpty(true);

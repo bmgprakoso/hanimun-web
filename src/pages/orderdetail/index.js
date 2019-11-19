@@ -8,6 +8,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../util/auth';
 import FlightOrderDetail from '../../components/FlightOrderDetail';
 import HotelOrderDetail from '../../components/HotelOrderDetail';
+import PackageOrderDetail from '../../components/PackageOrderDetail';
 import Section from '../../components/Section';
 import SectionHeader from '../../components/SectionHeader';
 import './styles.scss';
@@ -234,6 +235,7 @@ const OrderDetailPage = props => {
             setFirstCustomerIDNumber(firstCustomer.identityNumber);
             setSecondCustomerName(secondCustomer.name);
             setSecondCustomerIDNumber(secondCustomer.identityNumber);
+            setPhone(firstCustomer.phone.substr(1));
             setEmail(firstCustomer.email);
           }
 
@@ -272,10 +274,10 @@ const OrderDetailPage = props => {
         break;
       }
       case PRODUCT_TYPE.PACKAGES: {
-        const { packageInfo, flightInfo, flightDetailInfo, hotelInfo } = info;
+        const { packageInfo, flightInfo, flightInfoReturn, hotelInfo } = info;
         setPackageDetail(packageInfo);
         setFlightDetail(flightInfo);
-        setFlightDetailReturn(flightDetailInfo);
+        setFlightDetailReturn(flightInfoReturn);
         setHotelDetail(hotelInfo);
         break;
       }
@@ -467,6 +469,16 @@ const OrderDetailPage = props => {
         return <FlightOrderDetail data={flightDetail} />;
       case PRODUCT_TYPE.HOTELS: {
         return <HotelOrderDetail data={hotelDetail} />;
+      }
+      case PRODUCT_TYPE.PACKAGES: {
+        return (
+          <PackageOrderDetail
+            packageDetail={packageDetail}
+            flightDetail={flightDetail}
+            flightDetailReturn={flightDetailReturn}
+            hotelDetail={hotelDetail}
+          />
+        );
       }
       default:
         return <div />;

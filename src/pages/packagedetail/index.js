@@ -19,10 +19,11 @@ const PackageDetailPage = props => {
 
   const router = useRouter();
 
-  const [packageDetail, setPackageDetail] = useState({});
+  const [packageInfo, setPackageInfo] = useState({});
   const [activeTab, setActiveTab] = useState(ITINERARY);
-  const [flightDetail, setFlightDetail] = useState({});
-  const [hotelDetail, setHotelDetail] = useState({});
+  const [flightInfo, setFlightInfo] = useState({});
+  const [flightInfoReturn, setFlightInfoReturn] = useState({});
+  const [hotelInfo, setHotelInfo] = useState({});
 
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -36,8 +37,13 @@ const PackageDetailPage = props => {
     res
       .json()
       .then(r => {
-        const { package: packageData, flightDetail, hotelDetail } = r.data;
-        setPackageDetail({
+        const {
+          package: packageData,
+          flightDetail: flightData,
+          flightDetaiReturn: flightDataReturn,
+          hotelDetail: hotelData,
+        } = r.data;
+        setPackageInfo({
           city: packageData.city,
           description: packageData.description,
           durationDays: packageData.duration_days,
@@ -47,6 +53,38 @@ const PackageDetailPage = props => {
           price: packageData.price,
           rate: packageData.rate,
           startDate: packageData.startDate,
+        });
+        setFlightInfo({
+          airline: flightData.airline,
+          departureCity: flightData.departureCity,
+          departureTime: flightData.departureTime,
+          departureAirportCode: flightData.departureAirportCode,
+          arrivalCity: flightData.arrivalCity,
+          arrivalTime: flightData.arrivalTime,
+          arrivalAirportCode: flightData.arrivalAirportCode,
+          price: flightData.price,
+          startDate: flightData.startDate,
+        });
+        setFlightInfoReturn({
+          airline: flightDataReturn.airline,
+          departureCity: flightDataReturn.departureCity,
+          departureTime: flightDataReturn.departureTime,
+          departureAirportCode: flightDataReturn.departureAirportCode,
+          arrivalCity: flightDataReturn.arrivalCity,
+          arrivalTime: flightDataReturn.arrivalTime,
+          arrivalAirportCode: flightDataReturn.arrivalAirportCode,
+          price: flightDataReturn.price,
+          startDate: flightDataReturn.startDate,
+        });
+        setHotelInfo({
+          address: hotelData.address,
+          city: hotelData.city,
+          hotelName: hotelData.hotelName,
+          price: hotelData.price,
+          rate: hotelData.rate,
+          roomType: hotelData.roomType,
+          startDate: packageData.startDate,
+          endDate: packageData.startDate,
         });
         setIsLoading(false);
       })
@@ -58,35 +96,24 @@ const PackageDetailPage = props => {
   }, []);
 
   const select = () => {
-    const { packageId, startDate } = packageDetail;
-    const { flightId } = flightDetail;
-    const { roomId } = hotelDetail;
     router.push({
       pathname: '/orderdetail',
       state: {
         type: PRODUCT_TYPE.PACKAGES,
-        query: { packageId, flightId, roomId, startDate },
+        info: { packageInfo, flightInfo, flightInfoReturn, hotelInfo },
       },
     });
   };
 
   const packageStar = () => {
-    const stars = [...Array(parseInt(packageDetail.rate, 10))].map(() => (
+    const stars = [...Array(parseInt(packageInfo.rate, 10))].map(() => (
       <i className="fas fa-star has-text-warning" />
     ));
     return <div>{stars}</div>;
   };
 
   const packageSummaryView = () => {
-    const {
-      city,
-      description,
-      durationDays,
-      durationNights,
-      name,
-      price,
-      startDate,
-    } = packageDetail;
+    const { city, description, durationDays, durationNights, name, price, startDate } = packageInfo;
     return (
       <div className="card">
         <div className="card-content">
