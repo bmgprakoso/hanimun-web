@@ -382,6 +382,7 @@ const OrderDetailPage = props => {
       name: firstCustomerName,
       gender: 'L',
       identityNumber: firstCustomerIDNumber,
+      phone,
     });
     passengers.push({
       name: secondCustomerName,
@@ -485,7 +486,7 @@ const OrderDetailPage = props => {
   };
 
   const productOrderDetail = () => {
-    const { type, info } = props.location.state;
+    const { type } = props.location.state;
     switch (type) {
       case PRODUCT_TYPE.FLIGHTS:
         return <FlightOrderDetail data={flightDetail} />;
