@@ -81,6 +81,7 @@ const OrderDetailPage = props => {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   // payment
+  const [paymentId, setPaymentId] = useState(null);
   const [cardHolderName, setCardHolderName] = useState('');
   const [ccNumber, setCCNumber] = useState('');
   const [expirationDate, setExpirationDate] = useState('');
@@ -243,6 +244,7 @@ const OrderDetailPage = props => {
           if (paymentRes.data && paymentRes.data.length !== 0) {
             const dateParts = paymentRes.data.validDate.split('/');
             const formattedDateResp = `${dateParts[1]}-${dateParts[0]}`;
+            setPaymentId(paymentRes.data.id);
             setCCNumber(paymentRes.data.cardNumber);
             setCardHolderName(paymentRes.data.cardHolderName);
             setExpirationDate(formattedDateResp);
@@ -313,7 +315,7 @@ const OrderDetailPage = props => {
         break;
     }
 
-    const result = {
+    let result = {
       email: auth.user.email,
       orderDate,
       orderTime,
@@ -328,6 +330,8 @@ const OrderDetailPage = props => {
         identityNumber: firstCustomerIDNumber,
       },
     };
+
+    result = paymentId ? { ...result, paymentId } : result;
 
     switch (type) {
       case PRODUCT_TYPE.FLIGHTS: {
@@ -425,7 +429,7 @@ const OrderDetailPage = props => {
           }),
         ])
           .then(r => {
-            const [submitRes] = r;
+            const [registerRes, paymentRes, submitRes] = r;
             if (submitRes.status !== 200) {
               setIsShowErrorModal(true);
               console.log(submitRes);
