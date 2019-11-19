@@ -382,7 +382,6 @@ const OrderDetailPage = props => {
       name: firstCustomerName,
       gender: 'L',
       identityNumber: firstCustomerIDNumber,
-      phone,
     });
     passengers.push({
       name: secondCustomerName,
@@ -392,6 +391,7 @@ const OrderDetailPage = props => {
 
     const registerBody = {
       email: auth.user.email,
+      phone,
       passengers,
     };
 
