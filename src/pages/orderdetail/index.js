@@ -353,6 +353,16 @@ const OrderDetailPage = props => {
           },
         };
       }
+      case PRODUCT_TYPE.PACKAGES: {
+        const { packageId, startDate } = packageDetail;
+        return {
+          ...result,
+          packageDetail: {
+            packageId,
+            date: startDate,
+          },
+        };
+      }
       default:
         return {};
     }
