@@ -14,7 +14,7 @@ const PackageHistory = () => {
     setIsError(false);
     setIsEmpty(false);
     const res = await fetch(
-      `${BACKEND_URL}${ENDPOINT.GET_ORDER_HISTORY}?email=${auth.user.email}&orderType=PCK`,
+      `${BACKEND_URL}${ENDPOINT.GET_ORDER_HISTORY}?email=${auth.user.email}&orderType=PKG`,
     );
     res
       .json()

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useRouter } from '../../util/router';
 import { formatPrice } from '../../util/display';
-import { PRODUCT_TYPE } from '../../data/constants';
 
 const FlightHistoryCard = props => {
   const {
@@ -19,7 +18,7 @@ const FlightHistoryCard = props => {
   const select = () => {
     router.push({
       pathname: `/myorders/flight/${orderId}`,
-      state: { orderId, orderType: PRODUCT_TYPE.FLIGHTS },
+      state: { orderId, orderType: 'FLG' },
     });
   };
 

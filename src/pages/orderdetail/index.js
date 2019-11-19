@@ -307,7 +307,7 @@ const OrderDetailPage = props => {
         break;
       }
       case PRODUCT_TYPE.PACKAGES: {
-        price = packageDetail.price;
+        price = parseInt(packageDetail.price, 10);
         break;
       }
       default:
@@ -410,7 +410,7 @@ const OrderDetailPage = props => {
 
     console.log('registerBody', registerBody);
     console.log('paymentMethodBody', paymentMethodBody);
-    console.log('orderBody', constructOrderBody());
+    console.log('orderBody', JSON.stringify(constructOrderBody()));
 
     try {
       if (auth.user) {
@@ -430,9 +430,9 @@ const OrderDetailPage = props => {
         ])
           .then(r => {
             const [registerRes, paymentRes, submitRes] = r;
+            console.log(submitRes);
             if (submitRes.status !== 200) {
               setIsShowErrorModal(true);
-              console.log(submitRes);
             } else {
               setIsShowModal(true);
             }

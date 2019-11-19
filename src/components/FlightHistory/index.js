@@ -19,7 +19,6 @@ const FlightHistory = () => {
     res
       .json()
       .then(r => {
-        console.log(r);
         const resultsData = r.data.map(e => {
           return {
             arrivalAirportCode: e.arrivalAirportCode,

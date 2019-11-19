@@ -9,8 +9,11 @@ const MyPackageOrderDetail = props => {
     titleSecondPassenger,
     nameFirstPassenger,
     nameSecondPassenger,
-    date,
-  } = props.data;
+  } = props.data.orderData;
+
+  const { name, city, startDate, rate, duration_days, description } = props.data.package;
+
+  console.log(props);
 
   return (
     <div>
@@ -21,8 +24,10 @@ const MyPackageOrderDetail = props => {
       <br />
       <Divider color="light" />
       <br />
-      <br />
-      <div className="has-text-weight-bold">{date}</div>
+      <div className="has-text-weight-bold">{name}</div>
+      <div>{city}</div>
+      <div>{startDate}</div>
+      <div>{description}</div>
     </div>
   );
 };

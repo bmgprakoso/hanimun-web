@@ -9,6 +9,7 @@ import MyOrderCard from '../../components/MyOrderCard';
 import FlightHistory from '../../components/FlightHistory';
 import HotelHistory from '../../components/HotelHistory';
 import AlternateSection from '../../components/AlternateSection';
+import PackageHistory from '../../components/PackageHistory';
 
 const FLIGHT = 'FLIGHT';
 const HOTEL = 'HOTEL';
@@ -60,6 +61,7 @@ const MyOrdersPage = () => {
 
         {activeTab === FLIGHT && <FlightHistory />}
         {activeTab === HOTEL && <HotelHistory />}
+        {activeTab === PACKAGE && <PackageHistory />}
       </div>
     </Section>
   );

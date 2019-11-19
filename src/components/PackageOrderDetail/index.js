@@ -63,7 +63,7 @@ const HotelDetailView = props => {
 
 const PackageOrderDetail = props => {
   const { packageDetail, flightDetail, flightDetailReturn, hotelDetail } = props;
-  const { durationDays } = packageDetail;
+  const { durationDays, price: packagePrice } = packageDetail;
   const {
     airline,
     departureCity,
@@ -148,16 +148,8 @@ const PackageOrderDetail = props => {
       <table className="table is-fullwidth">
         <tbody>
           <tr>
-            <td>Flight 1, Adult (x2)</td>
-            <td align="right">{formatPrice(flightPrice)}</td>
-          </tr>
-          <tr>
-            <td>Flight 2, Adult (x2)</td>
-            <td align="right">{formatPrice(flightPriceReturn)}</td>
-          </tr>
-          <tr>
-            <td>{`Hotel, ${durationDays} Day(s)`}</td>
-            <td align="right">{formatPrice(hotelPrice * durationDays)}</td>
+            <td>Package, Adult (x2)</td>
+            <td align="right">{formatPrice(packagePrice)}</td>
           </tr>
           <tr>
             <td>Tax</td>
@@ -170,7 +162,7 @@ const PackageOrderDetail = props => {
           <tr>
             <td className="has-text-weight-bold">Total Payment</td>
             <td align="right" className="has-text-weight-bold">
-              {formatPrice(flightPrice + flightPriceReturn + hotelPrice * durationDays)}
+              {formatPrice(packagePrice)}
             </td>
           </tr>
         </tbody>
